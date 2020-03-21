@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          针对B/S管理系统常用测试用例总结 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2016/04/07/针对B-S管理系统常用测试用例总结/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#功能测试" title="功能测试">功能测试</a>
+                            
+                        </div>
+                        <h1>针对B/S管理系统常用测试用例总结</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2016-04-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="1功能测试">1.功能测试</span></h3>
+<p><strong>新增功能</strong>–文本输入测试</p>
+<blockquote>
+<ul>
+<li>输入符合要求的数据，看是否能正常保存</li>
+<li>非必填项不输入任何信息保存，看是否能保存成功</li>
+<li>输入较长的信息（超过数据库字段中规定的长度）后保存，看是否会有提示</li>
+<li>不填写必填项的信息后保存，看是否会有提示，并且输入框旁边必填标识符</li>
+<li>必填项中输入空格后保存，看是做了空格验证</li>
+<li>在输入项中输入&quot;null&quot; 程序关键字保存，看是否程序已经做了处理</li>
+<li>添加后的数据是否出现在首页的首行（所有数据是否做了倒序排列）</li>
+<li>填写相同的数据，看是否有提示</li>
+</ul>
+</blockquote>
+<p><strong>查询功能</strong><br>
+(1)、查询栏查询功能测试</p>
+<blockquote>
+<ul>
+<li>单条查询：通过各项查询栏单个查询，看是是否能查询出匹配的数据</li>
+<li>组合查询：通过各项查询栏依次组合查询，看是否能查询出匹配数据</li>
+<li>模糊查询：通过输入模糊数据，看是否能查询出相应匹配数据的集合</li>
+<li>所有查询输入项都匹配时，看是否能查询出匹配的数据（单条）</li>
+<li>所有的查询条件都为空时，看是否能查询出所有的数据</li>
+<li>在所有的输入项中输入&quot;%&quot; 或&quot;_&quot;等关键字，看是否能查询出相应的数据</li>
+<li>是否设置了重置功能</li>
+<li>系统是否支持回车查询</li>
+<li>当根据查询条件查询不出任何数据时，是否提示用户:没有匹配的数据</li>
+</ul>
+</blockquote>
+<p>(2)、详情查看功能测试</p>
+<blockquote>
+<ul>
+<li>是否所有的详情信息都能显示出来</li>
+<li>显示的数据是否有导致页面布局混乱</li>
+<li>页面是否设置了【返回】按钮</li>
+</ul>
+</blockquote>
+<p><strong>删除功能</strong></p>
+<blockquote>
+<ul>
+<li>单条删除，看是否能删除成功</li>
+<li>批量删除，看是否能删除成功</li>
+<li>删除成功后，是否有操作成功提示</li>
+<li>删除时，是否有确认删除提示框</li>
+<li>不勾选复选框删除，看是否有提示用户勾选要删除的数据</li>
+</ul>
+</blockquote>
+<p><strong>修改功能</strong></p>
+<blockquote>
+<ul>
+<li>修改时，是否完全查询出了要修改的数据且无误</li>
+<li>在原有的数据上修改数据看是否能修改成功</li>
+<li>将必填项的数据设置为空修改，看是否有提示</li>
+<li>将可以为空的输入项修改为空，看是否能修改成功（这个问题经常在程序中遇到）</li>
+</ul>
+</blockquote>
+<p>注:由于在开发过程中大部分的修改页面和新增页面用的都是同一个页面，因此主要集中测试新增页面的功能</p>
+<hr>
+<h3><span id="2界面测试">2.界面测试</span></h3>
+<blockquote>
+<ul>
+<li>页面布局是否有序、简洁</li>
+<li>页面元素是否水平或垂直方向对齐</li>
+<li>页面元素大小是否合理</li>
+<li>页面刷新后是否显示正常</li>
+<li>使用不同的分辨率测试，看页面布局是否显示正常</li>
+<li>窗口切换大小、窗口移动，看界面是否显示正常</li>
+<li>页面是否有错别字、描述模糊</li>
+<li>页面有无乱码</li>
+<li>页面导航显示是否正确</li>
+<li>页面元素必填项是否有必填标示（如：*）</li>
+<li>弹出窗口是否垂直居中显示</li>
+<li>弹出窗口时，应该禁用主界面</li>
+</ul>
+</blockquote>
+<hr>
+<h3><span id="3安全性测试">3.安全性测试</span></h3>
+<blockquote>
+<ul>
+<li>不登录系统，直接输入登录后的url直接访问，看系统是否做了处理</li>
+<li>退出系统后，直接点击浏览器中的【后退】按钮，看是否可以访问之前的页面</li>
+<li>数据新增时，当用户输入无效的数据或不符合需求规则的数据时，系统是否会做验证提示！（如：*@##@&amp;&amp;#……！）</li>
+<li>数据库中的【用户密码】字段是否经过加密</li>
+</ul>
+</blockquote>
+<hr>
+<h3><span id="4常用控件测试">4.常用控件测试</span></h3>
+<p>（1）、复选框测试</p>
+<blockquote>
+<ul>
+<li>所有复选框可以全部选中</li>
+<li>多个复选框可以部分选中</li>
+<li>逐一执行每个复选框，看是否可以被选中，并可以将选中的数据传人后台。</li>
+<li>多个复选框可以不被选中</li>
+</ul>
+</blockquote>
+<p>（2）、单选框测试</p>
+<blockquote>
+<ul>
+<li>一组单选按钮只能一个被选中</li>
+<li>点击label文字看是否能够触发事件</li>
+<li>一组单选按钮初始化页面时须有一个默认选中</li>
+<li>逐一执行每个单选按钮，看是否始终都只有一个被选中，并可以将选中的数据成功保存至数据库。</li>
+</ul>
+</blockquote>
+<p>（3）、下拉框测试</p>
+<blockquote>
+<ul>
+<li>点击下拉框，是否显示了全部数据</li>
+<li>单选下拉框只能选中一个值，并可以将数据成功的保存至数据库</li>
+<li>初始化页面时下拉框首项需显示为“请选择”</li>
+</ul>
+</blockquote>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/04/09/CSS网页渲染样式/" data-toggle="tooltip" data-placement="top" title="CSS网页渲染样式">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/04/06/软件测试流程总结/" data-toggle="tooltip" data-placement="top" title="软件测试流程总结">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#功能测试" title="功能测试">功能测试</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2016/04/07/针对B-S管理系统常用测试用例总结/";
+    var disqus_url = "http://bakbio.cn/2016/04/07/针对B-S管理系统常用测试用例总结/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

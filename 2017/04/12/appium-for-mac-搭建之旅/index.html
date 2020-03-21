@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          appium for mac 搭建之旅 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2017/04/12/appium-for-mac-搭建之旅/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#appium" title="appium">appium</a>
+                            
+                        </div>
+                        <h1>appium for mac 搭建之旅</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2017-04-12
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="环境准备">环境准备</span></h3>
+<p>在mac上使用appium进行UI自动化前需要准备以下环境：</p>
+<ol>
+<li>安装jdk1.7+ :<a href="http://www.cnblogs.com/iOS-mt/p/5726380.html" target="_blank" rel="noopener">http://www.cnblogs.com/iOS-mt/p/5726380.html</a> 配置jdk环境变量</li>
+<li>xcode 8.3.1：在App Store中下载最新xcode</li>
+<li>appium 1.6.3：使用命令安装appium1.6.3</li>
+<li>ios版本 10+：准备一台10以上版本的ios真机或者模拟器（我用的是模拟器）</li>
+</ol>
+<h3><span id="环境安装">环境安装</span></h3>
+<p>下面是安装appium用到的相关依赖以及appium1.6.3版本</p>
+<ul>
+<li><strong>安装brew</strong> : usr/bin/ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="noopener">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”</li>
+<li><strong>安装libimobiledevice</strong>：brew install libimobiledevice --HEAD</li>
+<li><strong>安装carthage</strong>：brew install carthage</li>
+<li><strong>安装cnpm</strong>：npm install -g cnpm --registry=https://registry.npm.taobao.org</li>
+<li><strong>安装ios-deploy</strong>：cnpm install -g ios-deploy</li>
+<li><strong>安装xcpretty</strong>：gem install xcpretty</li>
+<li><strong>安装appium1.6.3</strong>（注：目前1.6.3是没有图形界面的）：cnpm install -g appium@1.6.3</li>
+<li><strong>安装wd</strong>：npm install wd</li>
+<li><strong>安装npm install -g appium-doctor`</strong><br>
+完成后，使用命令：<strong>appium-doctor</strong>检查appium环境，我在此之前我安装了安卓的环境，所以一切都ok了。<br>
+<img src="http://bakbio.xjshen.cn/2017/04/17QQ20170413-132115.jpg" alt="此处输入图片的描述"><br>
+以上表示appium的相关环境完成安装，若遇到错误的情况，请参考博客：<a href="http://doc00.com/doc/1001007m9" target="_blank" rel="noopener">http://doc00.com/doc/1001007m9</a></li>
+<li>完成安装后使用命令：appium，看能否正常启动，下图则是启动成功的截图：<br>
+<img src="http://bakbio.xjshen.cn/QQ20170413-133303.jpg" alt="此处输入图片的描述"></li>
+<li>以上环境都安装成功后，接下来重点来啦，使用xcode来构建我们的待测app<br>
+使用xcode打开待测app的源码包&gt;build: 当出现build Succeeded 说明已经构建成功<br>
+<img src="http://bakbio.xjshen.cn/2017/04/13QQ20170413-134904.jpg" alt="此处输入图片的描述"><br>
+构建成功后我们需要找到构建好app的路径：/Users/zhangli/Library/Developer/Xcode/DerivedData/路径下</li>
+<li>接下来终于可以开始写代码啦<br>
+开启myEclipse&gt;新建项目&gt;编写如下代码</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Login_Test</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> WebDriver  driver;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Before</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		    DesiredCapabilities capabilities=<span class="keyword">new</span> DesiredCapabilities();</span><br><span class="line">		    capabilities.setCapability(<span class="string">"appium-version"</span>,<span class="string">"1.6.3"</span>); <span class="comment">//appium版本</span></span><br><span class="line">		    capabilities.setCapability(<span class="string">"platformName"</span>,<span class="string">"iOS"</span>);<span class="comment">//测试平台的是ios还是Android</span></span><br><span class="line">		    capabilities.setCapability(<span class="string">"platformVersion"</span>,<span class="string">"10.2"</span>); <span class="comment">//平台版本</span></span><br><span class="line">		    capabilities.setCapability(<span class="string">"deviceName"</span>,<span class="string">"iPhone Simulator"</span>);<span class="comment">//模拟器还是真机</span></span><br><span class="line">		    capabilities.setCapability(<span class="string">"app"</span>,<span class="string">"/Users/zhangli/Library/Developer/Xcode/DerivedData/SDShop-fgeskpciuttooeeycfwpovgjirqc/Build/Products/Debug-iphonesimulator/SDShop.app"</span>);<span class="comment">//待测app的路径，通过xcode构建好的路径</span></span><br><span class="line">		    driver = <span class="keyword">new</span> IOSDriver&lt;MobileElement&gt;(<span class="keyword">new</span> URL(<span class="string">"http://127.0.0.1:4723/wd/hub"</span>), capabilities); <span class="comment">//启动服务</span></span><br><span class="line">		    driver.manage().timeouts().implicitlyWait(<span class="number">3000</span>, TimeUnit.SECONDS);<span class="comment">//设置等待</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">Login_success</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		<span class="comment">//执行测试</span></span><br><span class="line">		WebElement phone = driver.findElement(By.xpath(<span class="string">"//XCUIElementTypeApplication[1]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeTextField[1]"</span>));</span><br><span class="line">		Thread.sleep(<span class="number">3000</span>);</span><br><span class="line">		phone.sendKeys(<span class="string">"13438835458"</span>); <span class="comment">//输入手机号码</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="comment">//，释放资源</span></span><br><span class="line">	<span class="meta">@After</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDwon</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是从appiumForAndroid测试后，再来做Ios的那对以上代码肯定很熟悉，我们只需要改改参数就OK了，一切都是那么的顺利？No，接下句来带你入坑啦<br>
+<strong>执行测试：</strong></p>
+<ul>
+<li>
+<p>启动appium，在终端输入命令appium，启动appium服务</p>
+</li>
+<li>
+<p>运行上面我们写好的代码</p>
+</li>
+<li>
+<p>准备入坑（坑了整整三天）<br>
+运行代码后出现可以正常的启动app，但是、但是，运行到 phone.sendKeys(“13438835458”); 这行代码时居然报错，居然报错，以下是报错信息<br>
+<img src="http://bakbio.xjshen.cn/2017/04/13sendkeys.jpg" alt="此处输入图片的描述"><br>
+网上的资料很少，找了很久找到了问题：<a href="https://discuss.appium.io/t/xcode-8-3-xctestdriver-managerproxy-unrecognized-selector-sent-to-instance-0x600000051a90/15702" target="_blank" rel="noopener">https://discuss.appium.io/t/xcode-8-3-xctestdriver-managerproxy-unrecognized-selector-sent-to-instance-0x600000051a90/15702</a><br>
+里面大概的意思就是说我xcode版本更新的原因，解决方法就是降低xcode版本，然后我又卸载掉xcode8.3.1，重新到官网上去下载了一个8.2.1的xcode版本，结果还是报同样的异常，然后又去找原因，原来是因为我没有修改xcode里面的版本：<br>
+旧版本的下载地址：<a href="https://developer.apple.com/download/" target="_blank" rel="noopener">https://developer.apple.com/download/</a><br>
+<img src="http://bakbio.xjshen.cn/2017/04/132A140F5F-3E83-47B9-907B-9F140A551683.png" alt="此处输入图片的描述"><br>
+修改xcode里面的版本后，然后重新构建，然后运行代码，终于运行成功了</p>
+</li>
+<li>
+<p>关于如何定位：<br>
+我目前是使用inspector工具来定位的<br>
+1、安装inspector：<br>
+npm install app-inspector -g —registry=https://registry.npm.taobao.org<br>
+2、使用inspector：<br>
+app-inspector -u  YOUR-DEVICE-ID<br>
+参考地址：<a href="https://macacajs.github.io/app-inspector/cn/" target="_blank" rel="noopener">https://macacajs.github.io/app-inspector/cn/</a><br>
+运行成功后就可以进行定位了，见下图：<br>
+<img src="http://bakbio.xjshen.cn/2017/04/17%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-04-17%20%E4%B8%8B%E5%8D%883.49.22.png" alt="此处输入图片的描述"><br>
+好啦，接下来就开始愉快的写代码吧！</p>
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/05/17/MAC下基于Charles的移动端HTTP-HTTPS抓包/" data-toggle="tooltip" data-placement="top" title="MAC下基于Charles的移动端HTTP/HTTPS抓包">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/03/02/Android之monkey压力测试/" data-toggle="tooltip" data-placement="top" title="Android之monkey压力测试">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#appium" title="appium">appium</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2017/04/12/appium-for-mac-搭建之旅/";
+    var disqus_url = "http://bakbio.cn/2017/04/12/appium-for-mac-搭建之旅/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

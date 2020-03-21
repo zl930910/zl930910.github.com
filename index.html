@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/home-bg-2-dark.png') 
+            /*config*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <h1>九月</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">一沙一世界，一花一天堂，双手握无限，刹那是永恒</span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
+
+
+<div class="post-preview">
+
+    <a href="/2019/07/02/使用python3-selenium3自动化测试总结/">
+        <h2 class="post-title">
+            python3+selenium3自动化测试总结
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言
+之前有写到使用java+selenium实现UI自动化测试，最近想了想使用python来试试，顺便可以熟悉熟悉python语言，该篇涉及的主要内容如下：
+
+读取配置文件封装元素定位方法
+po设计模式详解
+unittest单元测试框架
+HTMLTestRunner生成测试报告
+数据驱动
+关键字驱动
+日志模块
+Jenkins持续集成
+
+安装selenium
+selenium 中的高级应用 ......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2019-07-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#UI自动化测试" title="UI自动化测试">UI自动化测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2019/01/02/聊聊如何做好功能测试/">
+        <h2 class="post-title">
+            聊聊如何做好功能测试
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            来上海工作已经有两年的时间了，回想自己走过的路程有不少迷茫，在自动化测试这条道路上越来越挣扎，回过头来才发现只有基础知识稳固了，才能做好自动化测试，所以真的不要小看功能测试。
+功能测试是软件测试核心，而自动化测试才是辅助，如何才能做好功能测试？接下来我会在以往的工作经历中总结一下如何做好功能测试？
+
+产品业务
+第一，首先需要完整的了解自己的产品，熟悉其中的业务流程。我们公司的运用的是敏捷开发......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2019-01-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#功能测试" title="功能测试">功能测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/12/24/软件测试知识体系整理/">
+        <h2 class="post-title">
+            软件测试知识体系整理
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言
+最近看知乎，无意间看到了一篇有关如何提高学习效率的文章，发现自己的知识结构体系特别的混乱，特意的来总结一下，一直觉得自己的学习方法有问题，学过的东西老是忘记，而且没有一个完整的体系，文章中提到了有5种提高学习效率的方法。
+
+弗曼技巧
+思维导图
+刻意练习
+艾宾斯浩遗忘曲线
+黄金圈法则
+
+下面来详细的说说这几种技巧
+弗曼技巧—就是说把我们学到的东西以教学的方式展示出来，这样的话就能接受到更......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2018-12-24
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#功能测试" title="功能测试">功能测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2018/08/26/Python-request-unittest搭建接口自动化框架/">
+        <h2 class="post-title">
+            Python+request+unittest搭建接口自动化框架
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            在平时的测试工作中，不知道大家会不会有这样的感受，面对重复繁杂枯燥的测试工作，时常感到力不从心，最重要的是每次上线后的回归测试，效率是不是特别低，怎么样才能快速的验证线上已有的功能是否正常，这就考虑到接口自动化测试了，真的是提高效率呀！接下来我们就来看看怎么去用python+request搭建自动化测试框架。
+
+前期准备
+1、在Excel中准备数据
+2、使用request封装post请求和g......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2018-08-26
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#接口自动化测试" title="接口自动化测试">接口自动化测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/10/14/selenium之PO设计模式/">
+        <h2 class="post-title">
+            selenium之PO设计模式
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前段时间在慕课网上买了《selenium企业运用》的学习视频，并且运用到了自己公司的项目中；虽然之前也学习selenium一段时间了，但是真正运用到实际的项目中时，会遇到很多的问题，比如，代码不利于扩展，可读性不高等等问题。在看学习视频的过程中，重新梳理了项目的框架以及流程，对selenium又有了更深的理解，首先写自动化测试之前，我们需要了解自动化测试的流程以及自动化测试用例等。
+自动化测......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2017-10-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#UI自动化测试" title="UI自动化测试">UI自动化测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/06/07/Jemter性能测试（工具篇）/">
+        <h2 class="post-title">
+            Jemter性能测试（工具篇）
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            之所以开始学习Jemter，是因为刚开始接触性能，对很多性能方面的东西并不是很了解，对与这个工具来讲，这个工具小巧又开源，并且又是Java写的，所以比较有亲切感。虽然也知道这个工具没有loadrunner那么强大，但它也算是麻雀虽小，五脏俱全了，对于新上手性能的亲应该也是比较适合的。
+
+Jmeter之脚本录制
+jmeter录制脚本的方式有两种，一种是badboy工具来录制,另外一种就是jme......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2017-06-07
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#性能测试" title="性能测试">性能测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/05/17/MAC下基于Charles的移动端HTTP-HTTPS抓包/">
+        <h2 class="post-title">
+            MAC下基于Charles的移动端HTTP/HTTPS抓包
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            关于移动端的测试肯定会涉及到移动端的抓包，我们常用的就是fiddler，但是在mac中是没有fiddler这个工具的，因此就安装了Charles，用下来的感受就是Charles感觉比fiddler简洁多了，接下来是关于怎么样抓取移动端的http/https
+
+MAC下基于Charles的移动端HTTP/HTTPS抓包
+首先查看mac的ip地址
+1、系统偏好设置–网络–选择wifi–点击右下方......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2017-05-17
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#接口自动化测试" title="接口自动化测试">接口自动化测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/04/12/appium-for-mac-搭建之旅/">
+        <h2 class="post-title">
+            appium for mac 搭建之旅
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            环境准备
+在mac上使用appium进行UI自动化前需要准备以下环境：
+
+安装jdk1.7+ :http://www.cnblogs.com/iOS-mt/p/5726380.html 配置jdk环境变量
+xcode 8.3.1：在App Store中下载最新xcode
+appium 1.6.3：使用命令安装appium1.6.3
+ios版本 10+：准备一台10以上版本的ios真机或者模拟......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2017-04-12
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#appium" title="appium">appium</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/03/02/Android之monkey压力测试/">
+        <h2 class="post-title">
+            Android之monkey压力测试
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            什么是monkey
+monkey是Android自带的黑盒测试工具，它可以向系统发送伪随机事件流，可运行在模拟器或真机中，实现对应用系统的压力测试，稳定性测试以及健壮性测试；但monkey也有缺点，发送的事件是随机的、只能测试应用程序包，
+
+###（一） monkey的命令格式
+1$adb shell monkey [option] [event-count]
+需要指定option的值
+具体......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2017-03-02
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#压力测试" title="压力测试">压力测试</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/2017/02/22/走进appium移动端自动化测试/">
+        <h2 class="post-title">
+            走进appium移动端自动化测试
+        </h2>
+        <h3 class="post-subtitle">
+            
+        </h3>
+        <div class="post-content-preview">
+            前言
+开年有许多空闲时间，年前就计划学习移动端的自动化测试，当然公司也恰好需要做移动端的自动化测试，正好也是学习的机会。接下来我将分享或是记录我的学习心得。
+
+什么是appium
+
+首先需要明确什么是appium，我理解的appium就是一个从webDriver扩展出来的一个跨平台、跨设备、并支持原生、混合以及web项目的开源的移动端测试框架。
+
+
+###（一） window7中搭建appi......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by 九月 on
+            2017-02-22
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#appium" title="appium">appium</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+        <li class="next">
+            <a href="/archives/2/">Older Posts &rarr;</a>
+        </li>
+    
+</ul>
+
+
+
+                <!-- 如果开启评论功能 -->
+                
+            </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#接口自动化测试" title="接口自动化测试" rel="3">接口自动化测试</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#appium" title="appium" rel="2">appium</a>
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#java" title="java" rel="2">java</a>
+            
+        
+            
+        
+            
+            <a href="/tags/#UI自动化测试" title="UI自动化测试" rel="4">UI自动化测试</a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+            <a href="/tags/#功能测试" title="功能测试" rel="9">功能测试</a>
+            
+        
+    </div>
+</section>
+
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
+
+        
+            <img id = "avatar_pic" src="http://bakbio.xjshen.cn/IMG_4935.PNG" />
+        
+
+        
+            <p>Hi, i&#39;m zhangli</p>
+        
+
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+            
+            
+
+            
+
+            
+                <li>
+                    <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+
+            
+                <li>
+                    <a target="_blank"  href="https://github.com/zhangli">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+                <li>
+                    <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+</section>
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2019/07/02/使用python3-selenium3自动化测试总结/">python3+selenium3自动化测试总结</a>
+        </li>
+      
+        <li>
+          <a href="/2019/01/02/聊聊如何做好功能测试/">聊聊如何做好功能测试</a>
+        </li>
+      
+        <li>
+          <a href="/2018/12/24/软件测试知识体系整理/">软件测试知识体系整理</a>
+        </li>
+      
+        <li>
+          <a href="/2018/08/26/Python-request-unittest搭建接口自动化框架/">Python+request+unittest搭建接口自动化框架</a>
+        </li>
+      
+        <li>
+          <a href="/2017/10/14/selenium之PO设计模式/">selenium之PO设计模式</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        <hr>
+    
+        <!-- Friends Blog -->
+
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+    
+        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+    
+</ul>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

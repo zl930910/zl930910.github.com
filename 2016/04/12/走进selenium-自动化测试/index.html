@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          走进selenium 自动化测试 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2016/04/12/走进selenium-自动化测试/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#UI自动化测试" title="UI自动化测试">UI自动化测试</a>
+                            
+                        </div>
+                        <h1>走进selenium 自动化测试</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2016-04-12
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="认识selenium"><strong>认识selenium</strong></span></h3>
+<p>selenium一系列基于web自动化测试工具，selenium包含了四种组件，描述如下<br>
+|组件名称|描述|<br>
+|--------:----:|<br>
+|selenium IDE|是Firefox的一种插件，用于录制脚本动作，可转换为脚本语言|<br>
+|selenium RC|selenium远程控制，并支持Java，C＃，PHP，Python和Ruby |<br>
+|selenium webdriver| Selenium2.0有简洁的AP，WebDriver和WebElement对象，更好的抽象。且支持多中操作系统，多语言，多浏览器|<br>
+|selenium grid|可以对测试脚本级做分布式处理，即可以在不同的平台下执行测试用例|</p>
+<hr>
+<h3><span id="selenium基础"><strong>selenium基础</strong></span></h3>
+<p>selenium 命令——selense</p>
+<ol>
+<li><strong>actions</strong>:操作的具体动作，点击链接等。</li>
+<li><strong>accessors</strong>：检查系统的当前状态</li>
+<li><strong>assertions</strong>：断言，判断预期结果和实际结果是否相符，断言又分为三种，<strong>assert</strong>、<strong>verify</strong>、<strong>waitFor</strong><br>
+assert：当assert失败时，测试将终止。<br>
+verify: 当verify失败时，测试还会继续。<br>
+waitFor: 等待某个条件为ture时执行，用于测试AJAX程序。</li>
+</ol>
+<h3><span id="selenium环境设置"><strong>selenium环境设置</strong></span></h3>
+<blockquote>
+<ul>
+<li>1、java环境设置，因为selenium工具是由java语言开发的，因此需要配置java环境</li>
+<li>2、安装MyEclipse开发工具</li>
+<li>3、安装Firefox中的插件，firebug、firepath、selenium IDE.</li>
+<li>4、下载selenium RC 服务jar包，我的是selenium-server-standalone-2.40.0.jar</li>
+<li>5、下载selenium webdriver 依赖包 selenium-java-2.45.0.zip</li>
+</ul>
+</blockquote>
+<hr>
+<h3><span id="启动selenium-rc服务"><strong>启动selenium RC服务</strong></span></h3>
+<p>使用cmd命令跳转至存放selenium-server-standalone-2.40.0.jar  的位置，执行java - jar selenium-server-standalone-2.40.0.jar 正常启动服务。<br>
+可以使用简单的方法来完成启动服务这个操作<br>
+在桌面新建一个txt文本，内容cd D :\selenium java - jar selenium-server-standalone-2.40.0.jar，将文件后缀改为bat，每次启动时，双击即可。</p>
+<hr>
+<h3><span id="简单的selenium-rcjava-测试案例"><strong>简单的selenium RC+java 测试案例</strong></span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> seleniumPacakge;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.thoughtworks.selenium.DefaultSelenium;</span><br><span class="line"><span class="keyword">import</span> com.thoughtworks.selenium.Selenium;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">seleniumRC</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    <span class="comment">//127.0.0.1为selenium测试服务器的位置</span></span><br><span class="line">    <span class="comment">//4444为selenium端口号</span></span><br><span class="line">    <span class="comment">//*iexplore是测试用的浏览器</span></span><br><span class="line">    <span class="comment">//http://www.baidu.com/测试网址</span></span><br><span class="line">    Selenium selenium = <span class="keyword">new</span> Selenium(<span class="string">"127.0.0.1"</span>,<span class="number">4444</span>,<span class="string">"*iexplore"</span>,<span class="string">"http://www.baidu.com/"</span>);</span><br><span class="line">    selenium.start();</span><br><span class="line">    selenium.open(<span class="string">"http://www.baidu.com/"</span>);</span><br><span class="line">    selenium.windowMaximize();</span><br><span class="line">    selenium.type(<span class="string">"id=KW"</span>,<span class="string">"12"</span>);</span><br><span class="line">    selenium.click(<span class="string">"id=su"</span>);</span><br><span class="line">    selenium.waitForPageToLoad(<span class="string">"30000"</span>);</span><br><span class="line">    selenium.stop();</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4><span id="selenium-rc的工作原理">selenium RC的工作原理</span></h4>
+<p>selenium RC的组成</p>
+<p>1.selenium  server 代理服务器</p>
+<blockquote>
+<ul>
+<li>selenium server 主要用于控制浏览器行为</li>
+</ul>
+</blockquote>
+<p>2.Client Libraries 客户端</p>
+<blockquote>
+<ul>
+<li>通过测试案例用于控制selenium server行为</li>
+<li>提供的编程语言包括java、c#、Perl、Python、PHP</li>
+</ul>
+</blockquote>
+<p>3.selenium RC 工作步骤</p>
+<blockquote>
+<ul>
+<li>通过客户端库给selenium server发送请求，请求与selenium server建立连接</li>
+<li>selenium Server的Launcher 启动浏览器，将selenium core 加入到浏览器中，并且将浏览器的代理设置为selenium server 的代理 Http Proxy</li>
+<li>客户端库通过向selenium server发送http请求后，selenium server接收到请求后进行解析，然后通过Http Proxy 发送js命令通知selenium core 执行浏览器动作</li>
+</ul>
+</blockquote>
+<hr>
+<h3><span id="简单的selenium-webdriver-java-测试案例"><strong>简单的selenium WebDriver + Java 测试案例</strong></span></h3>
+<p>需要导入selenium-java-2.45.0.jar和selenium-java-2.45.0-srcs.jar</p>
+<p>（1）、selenium 启动firefox浏览器测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">seleniumFirefox</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="comment">//创建webDriver对象</span></span><br><span class="line">        WebDriver driver = <span class="keyword">new</span> FirefoxDriver();</span><br><span class="line">        <span class="comment">//开启需要测试的网址</span></span><br><span class="line">        driver.get(<span class="string">"http://www.baidu.com/"</span>);</span><br><span class="line">        <span class="comment">//最大化浏览器窗口</span></span><br><span class="line">        driver.manage().window().maximize();</span><br><span class="line">        <span class="comment">//找到搜索输入框，填写搜索信息“hello selenium”</span></span><br><span class="line">        driver.findElement(By.id(<span class="string">"kw"</span>)).sendkeys(<span class="string">"hello selenium"</span>);</span><br><span class="line">        <span class="comment">//找到提交按钮，提交数据</span></span><br><span class="line">        driver.findElement(By.id(<span class="string">"su"</span>)).submit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以下是遇到的坑，要么就是Firefox浏览器版本过高，selenium的版本过低，要么就是打不开浏览器</p>
+<ol>
+<li>问题：能打开浏览器，但不能访问网址？<br>
+原因：Firefox浏览器版本过高或selenium的版本过低，怎么兼容版本？<br>
+解决：在网上找了很久，下了各种版本的浏览器器来试，最终选择【Selenium】&gt; 2.45.0 【Firefox】&gt; 40.0.3终于可以运行成功了</li>
+</ol>
+<hr>
+<ol start="2">
+<li>问题：打不开浏览器？<br>
+原因：浏览器安装的目录不是默认的目录！<br>
+解决：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.setProperty(<span class="string">"webdriver.firefox.bin"</span>, <span class="string">"firefox的路径"</span>);<span class="comment">//指定路径</span></span><br><span class="line">WebDriver driver = <span class="keyword">new</span>  FirefoxDriver(); <span class="comment">//浏览器的默认安装路径</span></span><br></pre></td></tr></table></figure>
+<p>（2）、selenium启动ie浏览器测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">seleniumIE</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="comment">//需要加载IEDriverServer驱动</span></span><br><span class="line">        System.setProperty(<span class="string">"webdriver.ie.driver"</span>, <span class="string">"D:\\server\\IEDriverServer.exe"</span>);</span><br><span class="line">        <span class="comment">//创建webDriver对象</span></span><br><span class="line">        WebDriver driver = <span class="keyword">new</span> InternetExplorerDriver();</span><br><span class="line">        <span class="comment">//开启需要测试的网址</span></span><br><span class="line">        driver.get(<span class="string">"http://www.baidu.com/"</span>);</span><br><span class="line">        <span class="comment">//最大化浏览器窗口</span></span><br><span class="line">        driver.manage().window().maximize();</span><br><span class="line">        <span class="comment">//找到搜索输入框，填写搜索信息“hello selenium”</span></span><br><span class="line">        driver.findElement(By.id(<span class="string">"kw"</span>)).sendkeys(<span class="string">"hello selenium"</span>);</span><br><span class="line">        <span class="comment">//找到提交按钮，提交数据</span></span><br><span class="line">        driver.findElement(By.id(<span class="string">"su"</span>)).submit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>遇到的问题：</p>
+<ol>
+<li>Exception in thread “main” org.openqa.selenium.remote.SessionNotFoundException: Unexpected error launching Internet Explorer. Protected Mode settings are not the same for all zones. Enable Protected Mode must be set to the same value (enabled or disabled) for all zones. (WARNING: The server did not provide any stacktrace information)<br>
+解决方案：需要关闭浏览器的保护模式</li>
+<li>Exception in thread “main” org.openqa.selenium.remote.SessionNotFoundException: Unexpected error launching Internet Explorer. Browser zoom level was set to 125%. It should be set to 100% (WARNING: The server did not provide any stacktrace information)<br>
+解决方案：浏览器的窗口大小比例需要设置为“100%”（ctrl+0）</li>
+</ol>
+<p>（3）、selenium启动chrome浏览器测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">seleniumChrome</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">       <span class="comment">//加载chromedriver浏览器测试</span></span><br><span class="line">		System.setProperty(<span class="string">"webdriver.chrome.driver"</span>, <span class="string">"D:\\server\\chromedriver.exe"</span>); <span class="comment">//需要加载谷歌浏览器驱动</span></span><br><span class="line">		<span class="comment">//创建webDriver对象</span></span><br><span class="line">		WebDriver driver = <span class="keyword">new</span> ChromeDriver();</span><br><span class="line">        <span class="comment">//开启需要测试的网址</span></span><br><span class="line">        driver.get(<span class="string">"http://www.baidu.com/"</span>);</span><br><span class="line">        <span class="comment">//最大化浏览器窗口</span></span><br><span class="line">        driver.manage().window().maximize();</span><br><span class="line">        <span class="comment">//找到搜索输入框，填写搜索信息“hello selenium”</span></span><br><span class="line">        driver.findElement(By.id(<span class="string">"kw"</span>)).sendkeys(<span class="string">"hello selenium"</span>);</span><br><span class="line">        <span class="comment">//找到提交按钮，提交数据</span></span><br><span class="line">        driver.findElement(By.id(<span class="string">"su"</span>)).submit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="selenium-10-和selenium20的区别"><strong>selenium 1.0 和selenium2.0的区别</strong></span></h3>
+<p>待续。。。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/04/12/html基本标签归纳/" data-toggle="tooltip" data-placement="top" title="html基本标签归纳">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/04/09/CSS网页渲染样式/" data-toggle="tooltip" data-placement="top" title="CSS网页渲染样式">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#UI自动化测试" title="UI自动化测试">UI自动化测试</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2016/04/12/走进selenium-自动化测试/";
+    var disqus_url = "http://bakbio.cn/2016/04/12/走进selenium-自动化测试/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

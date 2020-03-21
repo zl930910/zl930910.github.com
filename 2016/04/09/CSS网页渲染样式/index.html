@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          CSS网页渲染样式 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2016/04/09/CSS网页渲染样式/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#css" title="css">css</a>
+                            
+                        </div>
+                        <h1>CSS网页渲染样式</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2016-04-09
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="css的引用样式">css的引用样式</span></h3>
+<p>css的引入方式分为4种</p>
+<ul>
+<li>外联样式</li>
+<li>嵌入样式</li>
+<li>内联样式</li>
+<li>导入式</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--外联样式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"style.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!--嵌入式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"><span class="css"> <span class="selector-id">#top_bg</span> &#123;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">height</span><span class="selector-pseudo">:29px</span>;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">width</span><span class="selector-pseudo">:100</span>%;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">background</span>:<span class="selector-id">#e1e1e1</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--内联式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"font-size:12px;"</span>&gt;</span>内容<span class="tag">&lt;/<span class="name">span</span>&gt;</span>;</span><br><span class="line"><span class="comment">&lt;!--导入式--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"><span class="css">    @<span class="keyword">import</span> <span class="string">"mystyle.css"</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注：四种样式的优先级顺序为：内联样式&gt;嵌入式&gt;外联式&gt;导入式（抛开导入式，离标签越近优先级越高）</p>
+<hr>
+<h3><span id="元素">元素</span></h3>
+<p>html中的标签可以就归纳为四种元素，何为元素？（元素就是一个小盒子），那css和html有什么关系？（css样式的设置及是依赖于元素的）</p>
+<ul>
+<li>替换元素：元素内容并非直接表示</li>
+<li>非替换元素：由用户代理直接显示（浏览器）</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--替换元素--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"ico.jpg"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"input"</span> /&gt;</span> <span class="comment">&lt;!--input标签本身没意义，由type属性产生作用--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--非替换元素--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>块级元素：霸道的块级元素，独占一行，垂直排列</li>
+<li>行内元素: 元素允许旁边有其他的元素存在，水平排列</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--块级元素:--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--行内元素--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">em</span>&gt;</span><span class="tag">&lt;<span class="name">em</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>行内元素和块级元素有哪些特点？</strong></p>
+<ul>
+<li>行内元素是水平排列的而块级元素是垂直排列的</li>
+<li>块级元素可以包含行内元素和块级元素，但行内元素不能包含块级元素</li>
+<li>行内元素的height和width无效果(可以设置line-height)，margin上下无效，padding上下无效</li>
+</ul>
+<p><strong>如何转换块级元素和行内元素？</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"test/css"</span>&gt;</span></span><br><span class="line"><span class="xml">    p&#123;display:inline;&#125;<span class="comment">&lt;!--将块级元素装换成行内元素--&gt;</span></span></span><br><span class="line"><span class="xml">    em&#123;display:block;&#125;<span class="comment">&lt;!--将行内元素装换为块级元素--&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="css选择器">css选择器</span></h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"><span class="xml">    body&#123;backgroud-color:#A2DD4E;&#125;<span class="comment">&lt;!--元素选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    *&#123;color:red;&#125; <span class="comment">&lt;!--通配选择器，作用于所有元素--&gt;</span></span></span><br><span class="line"><span class="xml">    h1,h2&#123;color:red;&#125; <span class="comment">&lt;!--组合选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    .but&#123;color:red;&#125; <span class="comment">&lt;!--类选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    #but&#123;color:red;&#125; <span class="comment">&lt;!--id选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    a[href=”url”][title=”w3c”]&#123;font-size=”10”&#125;<span class="comment">&lt;!--属性选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    p[class~=”hello”]&#123;font-weight:bold&#125;<span class="comment">&lt;!--属性值选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    img[src=”img”]&#123;boder:1px;&#125;<span class="comment">&lt;!--特定属性选择器--&gt;</span></span></span><br><span class="line"><span class="xml">    h1 em&#123;color:red;&#125;<span class="comment">&lt;!--包含选择器，作用于后代元素--&gt;</span></span></span><br><span class="line"><span class="css">    <span class="selector-tag">h1</span>&lt;<span class="selector-tag">Strong</span>&#123;<span class="attribute">color</span>:red;&#125;&lt;!<span class="selector-tag">--</span>选择子元素<span class="selector-tag">--</span>&gt;</span></span><br><span class="line"><span class="xml">    h1+p&#123;boder:1px;&#125;<span class="comment">&lt;!--选择相邻元素（h1和p元素有相同的父元素）--&gt;</span></span></span><br><span class="line"><span class="xml">    :link&#123;&#125;/:visited&#123;&#125;/:first-child<span class="comment">&lt;!--伪类选择器（静态伪类）--&gt;</span></span></span><br><span class="line"><span class="xml">    :focus&#123;&#125;/:hover&#123;&#125;/:active&#123;&#125;<span class="comment">&lt;!--动态伪类--&gt;</span></span></span><br><span class="line"><span class="xml">    P:first-letter&#123;font-size:20px;&#125;<span class="comment">&lt;!--伪元素选择器--&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="字体">字体</span></h3>
+<ol>
+<li>font-family（设置文字的样式）</li>
+<li>font-weight（字体加粗）normal/bold/bolder/lighter/inherit(继承父级)/100~900</li>
+<li>font-size （字体大小）xx-small/s-small/small/medium/large/x-large/xx-large/smaller/larger/</li>
+<li>font-style（风格字体）italic(斜体)/oblique(倾斜)/normal/inherit</li>
+<li>font-variant（字体的大小写、针对于字母）small-caps/normal/inherit</li>
+<li>font-stretch（拉伸和调整字体）normal/wider/narrower/ultra-condensed/extra-condensed/<br>
+condensed/semi-condensed/semi-expanded/expanded/<br>
+extra-expanded/ultra-expanded/inherit</li>
+<li>font（以上字体样式的组合）：caption(有标题的控件：按钮)/icon(图标加标签)/menu(菜单)<br>
+message-box(对话框)/small-caption(用于对小控件加标签)<br>
+status-bar(用于窗口状态条)/line-height(设置行高)</li>
+</ol>
+<hr>
+<h3><span id="文本属性">文本属性</span></h3>
+<ol>
+<li>文本缩进 text-indent(应用于块级元素)</li>
+<li>水平对齐text-align(应用于行内元素) : left/center/right/justify/inherit注：不会影响元素，但是在IE6之前的版本都会将元素居中</li>
+<li>垂直对齐 line-height(应用于所有元素)</li>
+<li>垂直对齐文本 vertical-align（行内元素和表单元素）：baseline/sub/super/top/text-top/<br>
+Middle/bottom/text-bottom/inheit/百分数</li>
+<li>字间隔：word-spacing(应用于所以元素) length/normal/inherit</li>
+<li>字母间隔：letter-spacing(应用于所有元素) length/nomal/inherit</li>
+<li>文本转换：text-transform(应用于所有元素) uppercase/lowercase/capitalize/none/inherit/</li>
+<li>文本装饰：text-decoration(应用于所有元素) none/underline/overline/line-through/blink</li>
+<li>文本阴影：text-shadow(于所有元素)四个参数，水平阴影、垂直阴影、模糊距离、阴影颜色</li>
+<li>处理空白符：white-space(应用于所有元素)：normal/nowrap/pre/pre-wrap/pre-line/inhert</li>
+<li>文本方向：direction(所有元素)：Itr/rtl/inherit<br>
+Unicode-bidi(所有元素)：embed/bidi-override/inherit</li>
+</ol>
+<hr>
+<h3><span id="基本视觉格式化">基本视觉格式化</span></h3>
+<ol>
+<li>水平格式化（7种相关属性）这七种水平距离之和等于父极元素的总宽度<br>
+width/margin-left/margin-right/padding-left/padding-right/border-left/border-right<br>
+注：margin可能为负数如果左边距为负数那么该元素会超出负元素的范围，而且还要超过浏览器的范围</li>
+<li>垂直格式化（7种相关属性）height/margin-top/margin-buttom/border-top/border-buttom/padding-top/padding-buttom<br>
+注：如果外边距设置为auto后元素不会上下居中，只会将外边距重置为0，其大小恰好包含的是内联元素（文本）的大小<br>
+合并垂直外边距：大的外边距会合并小的外边距</li>
+<li>改变元素的显示：display(应用于所有元素)block: 将行内元素修改为块级元素<br>
+inline：将块级元素改为行内元素（width和height会被忽略）<br>
+inline-block：行内块元素（width和height不会被忽略）</li>
+</ol>
+<hr>
+<h3><span id="内边距-边框和外边距">内边距。边框和外边距</span></h3>
+<ol>
+<li>width（应用于块级元素和替换元素）</li>
+<li>height（应用于块级元素和替换元素）</li>
+<li>margin（应用于所有元素） margin{上、右、下、左}顺时针 margin{上、右}<br>
+百分数的定义是相对于父极的width定义的</li>
+<li>border-style（应用于所有元素）<br>
+None：定义无边框<br>
+Hidden:解决边框冲突<br>
+Dotted:定义点状边框<br>
+Dashed：定义虚线<br>
+Solid：定义实线<br>
+Double：定义双线<br>
+Groove：定义3D凹槽线,效果取决于border-color<br>
+Ridge：定义3d垄状线，效果取决于border-color<br>
+Inset：定义3d insert框，效果取决于border-color<br>
+Outset：定义3doutset框，效果取决于border-color<br>
+Inherit：继承父极边框样式<br>
+单边样式框：border-top-style/border-right-style/border-bottom-style/border-left-style</li>
+<li>边框的宽度：border-width/border-top-width/border-bottom-width/<br>
+border-left-widh/boder-right-width</li>
+<li>边框的颜色：border-color</li>
+<li>全局边框：border（包含了border-style/border-color/border-width）</li>
+<li>内边距:padding</li>
+</ol>
+<hr>
+<h3><span id="盒子模型">盒子模型</span></h3>
+<p>Border&gt;conent+padding&gt;background-image&gt;background-color&gt;margin<br>
+自动居中布局：设置宽度为auto，之后不能再设置浮动或是绝对定位<br>
+<strong>浮动</strong><br>
+设置浮动后，此时也处于标准文档流中<br>
+当元素没有设置宽度值，而设置了浮动属性，元素的宽度随内容的变化而变化<br>
+清除浮动的两种方法：<br>
+1、Clear：both<br>
+2、同时设置width：100%（或固定宽度）+overflow:hidden<br>
+设置浮动的元素会对下级元素进行影响（对受到影响的的元素设置清除浮动）<br>
+<strong>Position定位</strong><br>
+静态定位：static<br>
+相对定位：relative<br>
+绝对定位: absolute/fixed<br>
+特点：（相对定位）relative<br>
+1、相对于自身原有位置进行偏移<br>
+2、仍处于标准文档流中<br>
+3、随即拥有偏移属性和Z-index属性<br>
+特点（绝对定位）absolute<br>
+1、建立了已包含块为基准的定位<br>
+2、完全脱离了标准文档流<br>
+3、随即拥有偏移属性和z-inex属性	<br>
+当没有设置偏移量时：<br>
+1、无论是否存在已定位祖先元素，都保持元素的初始位置<br>
+2、脱离了标准文档流<br>
+设置了偏移量时<br>
+1、无定位的祖先元素（以html的标签进行偏移标准）<br>
+2、有定位的祖先元素（以距离最近的已经定位的祖先元素为偏移参照标准）</p>
+<hr>
+<h3><span id="颜色和背景">颜色和背景</span></h3>
+<ol>
+<li>前景色:color</li>
+<li>背景色：background-color</li>
+<li>背景图像：background-image{url()d}</li>
+<li>背景图案的重复：background-repeat(Repeat-x:X轴重复<br>
+Repeat-y:Y轴重复<br>
+No-repeat: 设置背景图像只显示一次<br>
+Repeat:图片垂直方向和横方向重复（默认）<br>
+)</li>
+<li>背景图像的定位：background-pastion left/center/right/top/bottom</li>
+<li>设置滚动：background-attachment(所有元素)Scroll：设置图片滚动<br>
+Fixed：设置图片固定</li>
+<li>汇总：background（包含了background-color/backgroumd-image/background-repead/<br>
+Background-attachment/backround-position）</li>
+</ol>
+<hr>
+<h3><span id="浮动和定位">浮动和定位</span></h3>
+<ol>
+<li>浮动：float（应用于所有元素）left/right/none</li>
+<li>清除：clear()</li>
+</ol>
+<hr>
+<h3><span id="定位">定位</span></h3>
+<ol>
+<li>position<br>
+Static默认值，没有定位<br>
+Relative：相对定位<br>
+Absolute:绝对定位<br>
+Fixed<br>
+Inherit<br>
+注：定位中的把包含块<br>
+1、如果是position:relative或static ，则包含块就是最近的块级框<br>
+2、如果是position包含块设置为最近的position值<br>
+2、限制高度和宽度<br>
+Min-width（除了非替换元素行内替换元素和表元以外的所有元素）<br>
+Min-height（除了非替换元素行内替换元素和表元以外的所有元素）<br>
+Max-width（同上）<br>
+Max-height（同上）<br>
+3、内容的溢出和剪裁<br>
+1、溢出：overflow（应用于块级元素和替换元素）<br>
+Hidden隐藏溢出部分<br>
+Visible显示溢出部分<br>
+Scroll加上滚动条<br>
+Auto必要时加上滚动条<br>
+Inherit：可继承父极属性<br>
+2、裁剪图像：clip（应用于绝对定位元素）<br>
+1、rect(top,right,bottom,left)<br>
+2、auto：自动适应<br>
+3、inherit<br>
+4、元素的可见性：visibility（应用于所有元素）<br>
+Visible:使元素可见<br>
+Hidden：使元素不可见，单不删除其元素框<br>
+Collapse元素不可见<br>
+样式的继承 border：1px solid red 没有继承性<br>
+样式的特殊性：权值规则！<br>
+标签的权值为1，类选择符的权值为10，id选择符的权值最高为100<br>
+样式的层叠：后面的样式会覆盖前面的样式<br>
+样式的重要性：!important</li>
+</ol>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/04/12/走进selenium-自动化测试/" data-toggle="tooltip" data-placement="top" title="走进selenium 自动化测试">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/04/07/针对B-S管理系统常用测试用例总结/" data-toggle="tooltip" data-placement="top" title="针对B/S管理系统常用测试用例总结">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#css" title="css">css</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2016/04/09/CSS网页渲染样式/";
+    var disqus_url = "http://bakbio.cn/2016/04/09/CSS网页渲染样式/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

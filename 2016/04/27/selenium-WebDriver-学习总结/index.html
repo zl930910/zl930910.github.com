@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          selenium WebDriver 学习总结 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2016/04/27/selenium-WebDriver-学习总结/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#UI自动化测试" title="UI自动化测试">UI自动化测试</a>
+                            
+                        </div>
+                        <h1>selenium WebDriver 学习总结</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2016-04-27
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>在上一篇中搭建了seleniumRC和WebDirver的运行环境，并使用了Firefox、chrome、IE浏览器做了百度搜索的测试案例、在接下来的这一篇中将用到的WebDriver方法进行总结。</p>
+<h3><span id="webdriver执行javascript"><strong>webDriver执行JavaScript</strong></span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//开启Firefox浏览器</span></span><br><span class="line">WebDriver driver = <span class="keyword">new</span>  FirefoxDriver();</span><br><span class="line"><span class="comment">//声明字符串变量，通过id获取userCode的值，并弹出对话框显示</span></span><br><span class="line">String userCode = <span class="string">"var ucode = document.getElementById(\'userCode\');alert(ucode.value)"</span>;</span><br><span class="line"><span class="comment">//执行上段js代码</span></span><br><span class="line">((JavascriptExecutor)driver).executeScript(username);</span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="定位页面元素"><strong>定位页面元素</strong></span></h3>
+<p>页面定位元素包含基本的8中方法，包含</p>
+<blockquote>
+<ul>
+<li>By.className(className))</li>
+<li>By.cssSelector(selector)</li>
+<li><a href="http://By.id" target="_blank" rel="noopener">By.id</a>(id)</li>
+<li>By.linkText(linkText)</li>
+<li><a href="http://By.name" target="_blank" rel="noopener">By.name</a>(name)</li>
+<li>By.partialLinkText(linkText)</li>
+<li>By.tagName(name)</li>
+<li>By.xpath(xpathExpression)</li>
+</ul>
+</blockquote>
+<p>下面是对各种定位方法的使用总结<br>
+（1）、根据id定位元素，在html标签中id是唯一的，不能重复的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementById =  driver.findElement(By.id(<span class="string">"userCode"</span>));</span><br><span class="line">System.out.println(elementById.getAttribute(<span class="string">"value"</span>)+<span class="string">"根据id定位获取元素的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>（2）、根据name定位元素，name允许多个存在，重复</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementByName =  driver.findElement(By.name(<span class="string">"userCode"</span>));</span><br><span class="line">System.out.println(elementByName.getAttribute(<span class="string">"value"</span>)+<span class="string">"根据name定位获取元素的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>（3）、根据class属性定位元素、class允许重复</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementByClass = driver.findElement(By.className(<span class="string">"className"</span>));</span><br><span class="line">System.out.println(elementByClass.getAttribute(<span class="string">"value"</span>)+<span class="string">"根据class属性定位获取的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>（4）、根据标签名称定位元素,tagName在网页的元素中可能存在多个所以返回的是一个集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">List&lt;WebElement&gt; elementByTagName = driver.findElements(By.tagName(<span class="string">"input"</span>));</span><br><span class="line"><span class="keyword">for</span> (WebElement webElement : elementByTagName) &#123;</span><br><span class="line">	System.out.println(webElement.getAttribute(<span class="string">"value"</span>)+<span class="string">"输出的每一项的值"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（5）、根据css元素定位元素，注：css包含多种选择器，可根据情况选择进行定位，具体请查看http://www.w3school.com.cn/cssref/css_selectors.asp，选择器也允许重复的出现哦</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementByCss  = driver.findElement(By.cssSelector(<span class="string">"#userCode"</span>));</span><br><span class="line">System.out.println(elementByCss.getAttribute(<span class="string">"value"</span>)+<span class="string">"通过css定位后获取的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>（6）、通过超文本连接来定位元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementByLink = driver.findElement(By.linkText(<span class="string">"跳转百度"</span>));</span><br><span class="line">System.out.println(elementByLink.getAttribute(<span class="string">"href"</span>)+<span class="string">"通过连接获取href的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>（7）、通过超文本模糊匹配定位元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementBypartialLink = driver.findElement(By.partialLinkText(<span class="string">"百度"</span>));</span><br><span class="line">System.out.println(elementBypartialLink.getAttribute(<span class="string">"href"</span>)+<span class="string">"通过模糊匹配连接获取href的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>（8）、通过xpath定位元素，xpath是 XML path的简称，可通过http://www.w3school.com.cn/xpath/xpath_syntax.asp学习语法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">WebDriver driver = <span class="keyword">new</span> Firefox();</span><br><span class="line">WebElement elementByXpath = driver.findElement(By.xpath(<span class="string">".//*[@id='userCode']"</span>));</span><br><span class="line">System.out.println(elementByXpath.getAttribute(<span class="string">"value"</span>)+<span class="string">"通过xpath获取的值"</span>);</span><br></pre></td></tr></table></figure>
+<p>注：由于在html中定位元素时，有些属性内容是允许重复的，要想准确的定位到自己需要的元素，建议还是使用By.id或者By.Xpath获取元素，另外，使用Xpath时需要慎重，当开发者频繁的改动网页结构时，Xpath就必须要重新定位。<br>
+（9）、dom方式定位元素</p>
+<h3><span id="webdriver处理iframe"><strong>webDriver处理iframe</strong></span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">webdriver.switchTo.frame(); <span class="comment">//跳转到某个iframe中</span></span><br><span class="line">webdriver.switchTo.defaultContent();跳出某个iframe中，开始重新定位</span><br></pre></td></tr></table></figure>
+<h3><span id="得到弹出窗口"><strong>得到弹出窗口</strong></span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String window = webDriver.getWindowHandle();<span class="comment">//获取当前窗口</span></span><br><span class="line">Set&lt;String&gt; all =  webDriver.getWindowHandles();<span class="comment">//获取所有窗口</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="处理alert-confirm-prompt对话框"><strong>处理alert、confirm、prompt对话框</strong></span></h3>
+<p>index.html页面</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>新建网页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"alertDialogs"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"alert弹出"</span> <span class="attr">onclick</span>=<span class="string">"alert('alertDialogs')"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"confirmDialogs"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"confirm弹出"</span> <span class="attr">onclick</span>=<span class="string">"confirm('confirmDialogs')"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"promptDialogs"</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"prompt弹出"</span> <span class="attr">onclick</span>=<span class="string">"prompt('promptDialogs')"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>(1)、 处理alert对话框</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//firefox浏览器测试</span></span><br><span class="line">System.setProperty(<span class="string">"webdriver.firefox.bin"</span>, <span class="string">"D:\\pdf电子文档\\selenium\\Firefox40.0.3\\Firefox\\firefox.exe"</span>);</span><br><span class="line">WebDriver driver = <span class="keyword">new</span> FirefoxDriver();</span><br><span class="line">driver.get(<span class="string">"file:///C:/Users/Administrator/Desktop/website/index.html"</span>);</span><br><span class="line"><span class="comment">//定位alertDialogs弹出框元素点击</span></span><br><span class="line">driver.findElement(By.id(<span class="string">"alertDialogs"</span>)).click();</span><br><span class="line"><span class="comment">//跳转至alert弹出框</span></span><br><span class="line">Alert alert = driver.switchTo().alert();</span><br><span class="line"><span class="comment">//获取alert上的文本值</span></span><br><span class="line">String text = alert.getText();</span><br><span class="line">System.out.println(text+<span class="string">"-------------------弹出的对话框。。。"</span>);</span><br><span class="line">alert.dismiss();<span class="comment">//关闭对话框</span></span><br></pre></td></tr></table></figure>
+<p>(2)、 处理confirm对话框</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//firefox浏览器测试</span></span><br><span class="line">System.setProperty(<span class="string">"webdriver.firefox.bin"</span>, <span class="string">"D:\\pdf电子文档\\selenium\\Firefox40.0.3\\Firefox\\firefox.exe"</span>);</span><br><span class="line">WebDriver driver = <span class="keyword">new</span> FirefoxDriver();</span><br><span class="line"><span class="comment">//打开网址</span></span><br><span class="line">driver.get(<span class="string">"file:///C:/Users/Administrator/Desktop/website/index.html"</span>);</span><br><span class="line">driver.findElement(By.id(<span class="string">"confirmDialogs"</span>)).click();</span><br><span class="line">Alert confirm = driver.switchTo().alert();</span><br><span class="line"><span class="comment">//获取alert上的文本值</span></span><br><span class="line">String text = confirm.getText();</span><br><span class="line">System.out.println(text+<span class="string">"-------------------弹出的对话框。。。"</span>);</span><br><span class="line">confirm.accept();<span class="comment">//点击确定按钮</span></span><br></pre></td></tr></table></figure>
+<p>(3)、处理prompt输入框</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//firefox浏览器测试</span></span><br><span class="line">System.setProperty(<span class="string">"webdriver.firefox.bin"</span>, <span class="string">"D:\\pdf电子文档\\selenium\\Firefox40.0.3\\Firefox\\firefox.exe"</span>);</span><br><span class="line">WebDriver driver = <span class="keyword">new</span> FirefoxDriver();</span><br><span class="line"><span class="comment">//打开网址</span></span><br><span class="line">driver.get(<span class="string">"file:///C:/Users/Administrator/Desktop/website/index.html"</span>);</span><br><span class="line">driver.findElement(By.id(<span class="string">"promptDialogs"</span>)).click();</span><br><span class="line">Alert prompt = driver.switchTo().alert();</span><br><span class="line"><span class="comment">//获取alert上的文本值</span></span><br><span class="line">String text = prompt.getText();</span><br><span class="line">System.out.println(text+<span class="string">"-------------------弹出的对话框。。。"</span>);</span><br><span class="line">prompt.sendKeys(<span class="string">"hello world"</span>);<span class="comment">//设置输入</span></span><br><span class="line">prompt.getText();</span><br><span class="line">prompt.accept();<span class="comment">//点击确定按钮</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>为什么Firefox就可以准确的定位到元素，而使用IE9和chrome浏览器就不能准确的定位？<br>
+报错信息：<br>
+Exception in thread “main” org.openqa.selenium.NoSuchElementException: Unable to find element with id == alertDialogs (WARNING: The server did not provide any stacktrace information)<br>
+Command duration or timeout: 324 milliseconds<br>
+问题原因：由于在还没有等浏览器加载完成就开始定位元素，肯定定位不了的。<br>
+解决方案：在定位元素前需要设置等待时间，等待页面加载完成后，开始定位.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.manage().timeouts().implicitlyWait(<span class="number">10</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<p>注：设置等待有两种方法，会在以下的内容中总结到</p>
+<hr>
+<h3><span id="操作select下拉框"><strong>操作select下拉框</strong></span></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Select select = <span class="keyword">new</span> Select(webDriver.findElement(By.id(<span class="string">"city"</span>))); </span><br><span class="line">select.selectByIndex(<span class="number">2</span>);<span class="comment">//通过下标选中下拉框中的值</span></span><br><span class="line">select.selectByValue(<span class="string">"上海"</span>);<span class="comment">//通过value值为选中“上海”获取</span></span><br><span class="line">select.selectByVisibleText(<span class="string">"成都"</span>);<span class="comment">//通过下拉列表中选项的可见文本选 中"成都"这一项</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="webdriver操作cookie"><strong>webDriver操作cookie</strong></span></h3>
+<ul>
+<li>1.新增cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookie = <span class="keyword">new</span> Cookie(<span class="string">"name"</span>,<span class="string">"value"</span>);<span class="comment">//创建一个cookie对象</span></span><br><span class="line">webDriver.manage().addCookie(cookie);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>2.操作cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;Cookie&gt; cookies = dr.manage().getCookies();<span class="comment">//得到所有的cookie</span></span><br><span class="line"><span class="keyword">for</span> (Cookie cookie2 : cookies) &#123;</span><br><span class="line">    System.out.println(cookie2.getName()+<span class="string">":"</span>+cookie2.getValue()+<span class="string">":"</span>+cookie2.getExpiry());</span><br><span class="line">    cookie2.getDomain();<span class="comment">//cookie域</span></span><br><span class="line">	cookie2.getName();<span class="comment">//cookie名称</span></span><br><span class="line">	cookie2.getValue();<span class="comment">//cookie值</span></span><br><span class="line">	cookie2.getExpiry();<span class="comment">//到期时间</span></span><br><span class="line">	cookie2.getPath();<span class="comment">//路径</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除cookie</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">webDriver.manage().deleteCookieNamed(<span class="string">"cookieName"</span>);<span class="comment">//通过cookie名称删除</span></span><br><span class="line">webDriver.manage().deleteCookie(cookie);<span class="comment">//通过cookie对象删除</span></span><br><span class="line">webDriver.manage().deleteAllCookies();<span class="comment">//删除所有cookie</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="如何把一个元素拖放到另一个元素里"><strong>如何把一个元素拖放到另一个元素里</strong></span></h3>
+<h3><span id="如何设置页面等待"><strong>如何设置页面等待</strong></span></h3>
+<p>设置页面等待有两种方法明确等待和隐形等待</p>
+<ol>
+<li>明确等待</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">WebDriverWait driverWait = <span class="keyword">new</span> WebDriverWait(webDriver, <span class="number">5</span>);</span><br><span class="line">    driverWait.until(<span class="keyword">new</span> ExpectedCondition&lt;WebElement&gt;() &#123;</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> WebElement <span class="title">apply</span><span class="params">(WebDriver arg0)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span>  arg0.findElement(By.id(<span class="string">"b"</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;).click();</span><br><span class="line">		</span><br><span class="line">	WebElement element = webDriver.findElement(By.cssSelector(<span class="string">".red_box"</span>));</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>隐形等待</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">webDriver = <span class="keyword">new</span> FirefoxDriver();</span><br><span class="line">webDriver.manage().timeouts().implicitlyWait(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line">webDriver.get(<span class="string">"file:///C:/Users/Administrator/Desktop/a.html"</span>);</span><br><span class="line">webDriver.findElement(By.id(<span class="string">"b"</span>)).click();</span><br><span class="line">WebElement element = webDriver.findElement(By.cssSelector(<span class="string">".red_box"</span>));</span><br></pre></td></tr></table></figure>
+<p>看这样子，【隐形等待】简单多了，【明确等待】用起来太繁琐。</p>
+<h3><span id="selenium-webdriver如何截图"><strong>selenium webDriver如何截图</strong></span></h3>
+<p>webDriver的截图最有趣的就是可以截取全图，再也不用担心截不到全图！特别是针对网站的测试，真是太有用啦！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">File screen = ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.FILE);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	FileUtils.copyFile(screen, <span class="keyword">new</span> File(<span class="string">"D:/test.png"</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="如何模拟鼠标和键盘操作"><strong>如何模拟鼠标和键盘操作</strong></span></h3>
+<p>click、或sendKeys实现鼠标或键盘操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@Ignore</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testClickAndSendKeys</span><span class="params">()</span></span>&#123;</span><br><span class="line">	WebElement element = webDriver.findElement(By.id(<span class="string">"inp"</span>));</span><br><span class="line">	element.sendKeys(<span class="string">"textInfo"</span>);</span><br><span class="line">	WebElement element2 = webDriver.findElement(By.id(<span class="string">"but"</span>));</span><br><span class="line">	element2.click();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用actions实现鼠标或键盘操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@Ignore</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testActions</span><span class="params">()</span></span>&#123;</span><br><span class="line">	Actions actions = <span class="keyword">new</span> Actions(webDriver);</span><br><span class="line">	WebElement element = webDriver.findElement(By.id(<span class="string">"inp"</span>));</span><br><span class="line">	WebElement element2 = webDriver.findElement(By.id(<span class="string">"but"</span>));</span><br><span class="line">	actions.sendKeys(element,<span class="string">"textInfo"</span>).perform();</span><br><span class="line">	actions.moveToElement(element2);</span><br><span class="line">	actions.click().perform();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用actions实现鼠标或键盘组合操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testActionsByGroup</span><span class="params">()</span></span>&#123;</span><br><span class="line">	Actions actions = <span class="keyword">new</span> Actions(webDriver);</span><br><span class="line">	WebElement element = webDriver.findElement(By.name(<span class="string">"source"</span>));</span><br><span class="line"></span><br><span class="line">	WebElement target = webDriver.findElement(By.name(<span class="string">"target"</span>));</span><br><span class="line"></span><br><span class="line">	(<span class="keyword">new</span> Actions(webDriver)).dragAndDrop(element, target).perform();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="如何处理table"><strong>如何处理table</strong></span></h3>
+<p>webDriver中没有操作table的方法，只能通过自己来封装方法，具体代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> util;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> org.openqa.selenium.By;</span><br><span class="line"><span class="keyword">import</span> org.openqa.selenium.WebDriver;</span><br><span class="line"><span class="keyword">import</span> org.openqa.selenium.WebElement;</span><br><span class="line"><span class="keyword">import</span> org.openqa.selenium.firefox.FirefoxDriver;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">table</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> WebDriver  driver;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">table</span><span class="params">(WebDriver webdriver)</span> </span>&#123; </span><br><span class="line">		<span class="keyword">this</span>.driver = webdriver;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//获取bable中的值,返回字符串</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getCelltest</span><span class="params">(By by,String tableIndex)</span></span>&#123;</span><br><span class="line">    	<span class="comment">//找到table元素对象</span></span><br><span class="line">    	WebElement  table  =  driver.findElement(by);</span><br><span class="line">    	<span class="keyword">int</span> index = tableIndex.indexOf(<span class="string">"."</span>); <span class="comment">// 字符串查找 .出现的位置：1</span></span><br><span class="line">    	<span class="comment">//截取传人的行元素下标</span></span><br><span class="line">    	<span class="keyword">int</span> row = Integer.parseInt(tableIndex.substring(<span class="number">0</span>, index));<span class="comment">//字符串截取，substring(int beginIndex, int endIndex)</span></span><br><span class="line">    	<span class="comment">//截取传人的列元素</span></span><br><span class="line">    	<span class="keyword">int</span> cell = Integer.parseInt(tableIndex.substring(index+<span class="number">1</span>));<span class="comment">//字符串截取，从下标开始直到字符串结尾</span></span><br><span class="line">    	<span class="comment">//找到所有的行元素</span></span><br><span class="line">    	List&lt;WebElement&gt; rows = table.findElements(By.tagName(<span class="string">"tr"</span>));</span><br><span class="line">    	WebElement theRow = rows.get(row); <span class="comment">//得到所有的行</span></span><br><span class="line">    	String info = getCell(theRow,cell).getText();</span><br><span class="line">    	<span class="keyword">return</span> info;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//得到所有的列值！</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> WebElement <span class="title">getCell</span><span class="params">(WebElement row,<span class="keyword">int</span> cell)</span></span>&#123;</span><br><span class="line">		WebElement target = <span class="keyword">null</span>;</span><br><span class="line">		<span class="comment">//处理th</span></span><br><span class="line">		<span class="keyword">if</span>(row.findElements(By.tagName(<span class="string">"th"</span>)).size()&gt;<span class="number">0</span>)&#123;</span><br><span class="line">			List&lt;WebElement&gt;  cells = row.findElements(By.tagName(<span class="string">"th"</span>));</span><br><span class="line">			target = cells.get(cell);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//处理td</span></span><br><span class="line">		<span class="keyword">if</span>(row.findElements(By.tagName(<span class="string">"td"</span>)).size()&gt;<span class="number">0</span>)&#123;</span><br><span class="line">			List&lt;WebElement&gt;  cells = row.findElements(By.tagName(<span class="string">"td"</span>));</span><br><span class="line">			target = cells.get(cell);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> target;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用该工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//firefox浏览器测试</span></span><br><span class="line">		System.setProperty(<span class="string">"webdriver.firefox.bin"</span>, <span class="string">"D:\\pdf电子文档\\selenium\\Firefox40.0.3\\Firefox\\firefox.exe"</span>);</span><br><span class="line">		WebDriver driver = <span class="keyword">new</span> FirefoxDriver();</span><br><span class="line">		driver.get(<span class="string">"file:///C:/Users/Administrator/Desktop/website/index.html"</span>);</span><br><span class="line">		table tab = <span class="keyword">new</span> table(driver);</span><br><span class="line">		tab.getCelltest(By.id(<span class="string">"tab"</span>),<span class="string">"0.1"</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h3><span id="如何处理firefox-profile"><strong>如何处理Firefox profile</strong></span></h3>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2016/06/02/junit4测试框架/" data-toggle="tooltip" data-placement="top" title="junit4测试框架">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2016/04/12/html基本标签归纳/" data-toggle="tooltip" data-placement="top" title="html基本标签归纳">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#UI自动化测试" title="UI自动化测试">UI自动化测试</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2016/04/27/selenium-WebDriver-学习总结/";
+    var disqus_url = "http://bakbio.cn/2016/04/27/selenium-WebDriver-学习总结/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

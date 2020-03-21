@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Jemter性能测试（工具篇） - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2017/06/07/Jemter性能测试（工具篇）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#性能测试" title="性能测试">性能测试</a>
+                            
+                        </div>
+                        <h1>Jemter性能测试（工具篇）</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2017-06-07
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>之所以开始学习Jemter，是因为刚开始接触性能，对很多性能方面的东西并不是很了解，对与这个工具来讲，这个工具小巧又开源，并且又是Java写的，所以比较有亲切感。虽然也知道这个工具没有loadrunner那么强大，但它也算是麻雀虽小，五脏俱全了，对于新上手性能的亲应该也是比较适合的。</p>
+<hr>
+<h3><span id="jmeter之脚本录制">Jmeter之脚本录制</span></h3>
+<p>jmeter录制脚本的方式有两种，一种是badboy工具来录制,另外一种就是jmeter自带的代理服务器了，但自己还是喜欢稍微简单一点的方式，所以就使用了第二种方式来录制脚本，第一种方式后期会尝试后会写入到总结中来。</p>
+<p><strong>1.Jmeter之录制移动端脚本</strong></p>
+<ol>
+<li>添加线程组</li>
+<li>在工作区域中添加http代理服务器<br>
+<img src="http://bakbio.xjshen.cn/2017/06/08QQ20170608-103202.jpg" alt="此处输入图片的描述"></li>
+<li>配置代理服务器<br>
+<img src="http://bakbio.xjshen.cn/2017/06/08QQ20170608-103916.jpg" alt="此处输入图片的描述"></li>
+<li>设置wifi代理<br>
+参见上篇博客<a href="http://www.bakbio.cn/2017/05/17/MAC%E4%B8%8B%E5%9F%BA%E4%BA%8ECharles%E7%9A%84%E7%A7%BB%E5%8A%A8%E7%AB%AFHTTP-HTTPS%E6%8A%93%E5%8C%85/#more" target="_blank" rel="noopener">MAC下基于Charles的移动端HTTP/HTTPS抓包</a><br>
+设置完成之后直接点击启动按钮即可开始移动端的脚本录制。</li>
+</ol>
+<p><strong>2.Jmeter之录制Web端脚本</strong></p>
+<p>录制web端的脚本的具体步骤与手机端录制的步骤一、二都是一样的，但是web端的话我们需要设置浏览器的web代理<br>
+如果是用的mac系统的话，需要设置mac默认浏览器的web代理，具体步骤：【打开Safari浏览器】&gt;【高级】&gt;【代理(更改设置)】&gt;【勾选网页代理（http）】&gt;【设置网页代理服务器IP（localhost）以及端口(8080)】见截图<br>
+<img src="http://bakbio.xjshen.cn/QQ20170629-170821.jpg" alt="此处输入图片的描述"><br>
+然后在jmeter中配置代理服务器中，设置端口号为8080，点击启动后，开始访问浏览器，就可以看到jmeter中录制下的脚本了</p>
+<p><strong>3.使用正则表达式过滤请求</strong><br>
+当我们录制完脚本后会发现有很多.png、.jpg、.js、.css文件，需要过滤掉这些脚本让我们的脚本看起来简洁，这时我们就需要用到排除模式来排除这些文件<br>
+<img src="http://bakbio.xjshen.cn/QQ20170704-155547.jpg" alt="此处输入图片的描述"></p>
+<hr>
+<h3><span id="jmeter测试https接口"><strong>Jmeter测试https接口</strong></span></h3>
+<p>在对https接口测试之前我们需要了解什么是https<br>
+https是一种安全套接字超文本传输协议。为了数据传输的安全，HTTPS在HTTP的基础上加入了SSL协议，SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密<br>
+所以我们直接请求是无法获取数据的，服务器不认识你，不会返回数据给你，所有我们需要下载ssl证书</p>
+<ol>
+<li>点击百度链接，导出证书-- “baidu.com.cer”</li>
+<li>将导出的证书转换成.store格式的文件 在终端执行  keytool -import -alias “baidu.store” -file “/Users/zhangli/Desktop/baidu.com.cer” -keystore baidu.store<br>
+<img src="http://bakbio.xjshen.cn/2018/01/31QQ20180131-142902.jpg" alt="此处输入图片的描述"></li>
+<li>在jmeter中设置请求端口为“443” ，协议修改为“https”<br>
+<img src="http://bakbio.xjshen.cn/QQ20180131-143244.jpg" alt="此处输入图片的描述"></li>
+<li>在ssl管理器中添加证书  [选项]&gt;【ssl管理器】<br>
+<img src="http://bakbio.xjshen.cn/2018/01/31QQ20180131-143828.jpg" alt="此处输入图片的描述"></li>
+</ol>
+<hr>
+<h3><span id="jmeter的参数化"><strong>Jmeter的参数化</strong></span></h3>
+<p>要使用这个参数化就必须了解参数化到底是什么，比如我们做一个登录的数据请求，需要用不同的用户账号和密码进行同时请求，这时候就会用到参数化</p>
+<ol>
+<li>
+<p>新建一个后缀为dat的文件，存放用户名和密码，用户名和密码之间使用“,”号隔开</p>
+</li>
+<li>
+<p>编写函数来调用这个文件<br>
+<img src="http://bakbio.xjshen.cn/Jmeter%E5%8F%82%E6%95%B0%E5%8C%96.png" alt="此处输入图片的描述"></p>
+</li>
+<li>
+<p>调用dat文件中的参数，复制生成好的函数，粘贴到请求的参数中<br>
+<img src="http://bakbio.xjshen.cn/%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96.png" alt="此处输入图片的描述"></p>
+</li>
+<li>
+<p>好啦，运行脚本前添加查看结果树，就可以查看到结果啦。</p>
+</li>
+</ol>
+<hr>
+<h3><span id="jmeter之关联">Jmeter之关联</span></h3>
+<p>之所以会用到关联，是因为在不同的请求中会有相同的请求参数，并且这个请求参数会变化的，比如我们做一个登录的请求操作，响应的数据中会包含有token参数，而token是一种唯一标示，如果我们想换一个账号进行请求时，token值就会改变，那岂不是所有包含有token的值都要重新改一遍，要实现参数化就需要用到正则表达式提取器</p>
+<ol>
+<li>接口请求成功后，添加正则表达式提取器（添加&gt;后置处理器&gt;正则表达式提取器）<br>
+<img src="http://bakbio.xjshen.cn/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8F%90%E5%8F%96%E5%99%A8.png" alt="此处输入图片的描述"><br>
+<strong>引用名</strong>：调用参数时用到的名字，${token}<br>
+<strong>正则表达式</strong>：从响应的数据中匹配的参数值，以圆括号开始“()”,很多数据返回的格式都是json格式的，下图就是我从json数据中匹配的值<br>
+<img src="http://bakbio.xjshen.cn/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%8C%B9%E9%85%8D%E5%80%BC.png" alt="此处输入图片的描述"></li>
+</ol>
+<p>匹配值：“accessToken”:&quot;(.+?)&quot; 其中“.”标示匹配任何字符串；“+”表示匹配一个或多个；“？”表示不要太贪婪，在找到第一个匹配项后停止。<br>
+<strong>模板</strong>：若有多个正则表达式，$1$就代表的是第一个正则表达式，$2$就代表第二个表达式<br>
+<strong>匹配数字</strong>：0代表随机取值，1代表全部取值<br>
+<strong>缺省值</strong>：当获取的值为空的时候，默认显示什么，一般都为空</p>
+<ol start="2">
+<li>使用关联：${token}<br>
+<img src="http://bakbio.xjshen.cn/%E4%BD%BF%E7%94%A8%E5%85%B3%E8%81%94.png" alt="此处输入图片的描述"></li>
+</ol>
+<hr>
+<h3><span id="jmeter之逻辑控制器">Jmeter之逻辑控制器</span></h3>
+<p>Jmeter中的逻辑控制器，逻辑控制器是用来控制采样器的执行顺序的，相当于就是接口的执行顺序，我理解的就是控制器下的所有采样器都是一个整体，然后按照执行顺序来执行，逻辑控制器包含有，简单的控制器、循环控制器、if控制器等。和java中的foreach、if等都是差不多的。<br>
+<img src="http://bakbio.xjshen.cn/QQ20170704-161619.jpg" alt="此处输入图片的描述"></p>
+<p>1、简单控制器<br>
+简单控制器具有组合功能，并不能控制逻辑<br>
+<img src="http://bakbio.xjshen.cn/QQ20170704-171811.jpg" alt="此处输入图片的描述"><br>
+2、循环控制器<br>
+指定节点循环次数<br>
+<img src="http://bakbio.xjshen.cn/QQ20170704-172155.jpg" alt="此处输入图片的描述"><br>
+3、仅一次控制器<br>
+顾名思义就是该控制器下的采样器只执行一次<br>
+<img src="http://bakbio.xjshen.cn/QQ20170704-172653.jpg" alt="此处输入图片的描述"><br>
+4、ForEach控制器<br>
+ForEach控制需要结合用户自定义变量一起使用，先在用户自定义变量中设置需要调用的参数，每循环一次获取一次参数，参数获取从下标0开始。<br>
+eg:我们用foreach循环控制器来做一个用户登陆的请求，每次请求不同的参数，见下图<br>
+首先设置用户自定义变量<br>
+<img src="http://bakbio.xjshen.cn/QQ%E6%88%AA%E5%9B%BE20170709114519.png" alt="此处输入图片的描述"><br>
+然后设置Foreach控制器<br>
+<img src="http://bakbio.xjshen.cn/QQ%E6%88%AA%E5%9B%BE20170709115716.png" alt="此处输入图片的描述"><br>
+设置请求参数<br>
+<img src="http://bakbio.xjshen.cn/QQ%E6%88%AA%E5%9B%BE20170709120038.png" alt="此处输入图片的描述"><br>
+查看请求的结果<br>
+<img src="http://bakbio.xjshen.cn/QQ%E6%88%AA%E5%9B%BE20170709120340.png" alt="此处输入图片的描述"><br>
+5、事物控制器<br>
+6、if控制器<br>
+if控制器就是根据指定的值判断是否执行以下的采样器，以上个forEach为例，当账号为指定值时才执行采样器。如下图<br>
+<img src="http://bakbio.xjshen.cn/QQ%E6%88%AA%E5%9B%BE20170709183343.png" alt="此处输入图片的描述"><br>
+Evaluate for all children：如果选中这一项，在每个子结点执行前都会计算表达式<br>
+7、Switch控制器<br>
+通过给switch控制器指定value值，判断执行哪一个采样器，指定值的方式有两种，第一种：通过数值来指定执行哪一个采样器，通过下标指定，如不填写，则默认执行第一个；第二种：通过采样器的名称来指定,见图下<br>
+<img src="http://bakbio.xjshen.cn/QQ%E6%88%AA%E5%9B%BE20170709185340.png" alt="此处输入图片的描述"><br>
+8、吞吐量控制器<br>
+待续…</p>
+<p>###设置jmeter的响应编码格式<br>
+1、添加&gt;&gt;[前置处理器]&gt;&gt;[BeanShell PreProcessor]<br>
+2、填写内容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span> s=<span class="keyword">new</span> <span class="built_in">String</span>(prev.getResponseData(),<span class="string">"UTF-8"</span>);</span><br><span class="line">        char aChar;</span><br><span class="line">        int len= s.length();</span><br><span class="line">        StringBuffer outBuffer=<span class="keyword">new</span> StringBuffer(len);</span><br><span class="line">        <span class="keyword">for</span>(int x =<span class="number">0</span>; x &lt;len;)&#123;</span><br><span class="line">            aChar= s.charAt(x++);</span><br><span class="line">            <span class="keyword">if</span>(aChar==<span class="string">'\\'</span>)&#123;</span><br><span class="line">                aChar= s.charAt(x++);</span><br><span class="line">                <span class="keyword">if</span>(aChar==<span class="string">'u'</span>)&#123;</span><br><span class="line">                    int value =<span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">                        aChar= s.charAt(x++);</span><br><span class="line">                        <span class="keyword">switch</span>(aChar)&#123;</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'0'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'1'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'2'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'3'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'4'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'5'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'6'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'7'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'8'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'9'</span>:</span><br><span class="line">                                value=(value &lt;&lt;<span class="number">4</span>)+aChar-<span class="string">'0'</span>;</span><br><span class="line">                                <span class="keyword">break</span>;</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'a'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'b'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'c'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'d'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'e'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'f'</span>:</span><br><span class="line">                                value=(value &lt;&lt;<span class="number">4</span>)+<span class="number">10</span>+aChar-<span class="string">'a'</span>;</span><br><span class="line">                                <span class="keyword">break</span>;</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'A'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'B'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'C'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'D'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'E'</span>:</span><br><span class="line">                            <span class="keyword">case</span><span class="string">'F'</span>:</span><br><span class="line">                                value=(value &lt;&lt;<span class="number">4</span>)+<span class="number">10</span>+aChar-<span class="string">'A'</span>;</span><br><span class="line">                                <span class="keyword">break</span>;</span><br><span class="line">                            <span class="keyword">default</span>:</span><br><span class="line">                                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(</span><br><span class="line">                                        <span class="string">"Malformed   \\uxxxx  encoding."</span>);&#125;&#125;</span><br><span class="line">                    outBuffer.append((char) value);&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">if</span>(aChar==<span class="string">'t'</span>)</span><br><span class="line">                        aChar=<span class="string">'\t'</span>;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span>(aChar==<span class="string">'r'</span>)</span><br><span class="line">                    aChar=<span class="string">'\r'</span>;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span>(aChar==<span class="string">'n'</span>)</span><br><span class="line">                    aChar=<span class="string">'\n'</span>;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span>(aChar==<span class="string">'f'</span>)</span><br><span class="line">                    aChar=<span class="string">'\f'</span>;</span><br><span class="line">                    outBuffer.append(aChar);&#125;&#125;<span class="keyword">else</span></span><br><span class="line">                outBuffer.append(aChar);&#125;</span><br><span class="line">        prev.setResponseData(outBuffer.toString());</span><br></pre></td></tr></table></figure>
+<p>3、保存后，重启jmeter即可</p>
+<p>###断言</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2017/10/14/selenium之PO设计模式/" data-toggle="tooltip" data-placement="top" title="selenium之PO设计模式">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/05/17/MAC下基于Charles的移动端HTTP-HTTPS抓包/" data-toggle="tooltip" data-placement="top" title="MAC下基于Charles的移动端HTTP/HTTPS抓包">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#性能测试" title="性能测试">性能测试</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2017/06/07/Jemter性能测试（工具篇）/";
+    var disqus_url = "http://bakbio.cn/2017/06/07/Jemter性能测试（工具篇）/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

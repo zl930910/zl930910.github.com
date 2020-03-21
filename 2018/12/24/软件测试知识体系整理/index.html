@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          软件测试知识体系整理 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2018/12/24/软件测试知识体系整理/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#功能测试" title="功能测试">功能测试</a>
+                            
+                        </div>
+                        <h1>软件测试知识体系整理</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2018-12-24
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3><span id="前言">前言</span></h3>
+<p>最近看知乎，无意间看到了一篇有关如何提高学习效率的文章，发现自己的知识结构体系特别的混乱，特意的来总结一下，一直觉得自己的学习方法有问题，学过的东西老是忘记，而且没有一个完整的体系，文章中提到了有5种提高学习效率的方法。</p>
+<ol>
+<li>弗曼技巧</li>
+<li>思维导图</li>
+<li>刻意练习</li>
+<li>艾宾斯浩遗忘曲线</li>
+<li>黄金圈法则</li>
+</ol>
+<p>下面来详细的说说这几种技巧<br>
+弗曼技巧—就是说把我们学到的东西以教学的方式展示出来，这样的话就能接受到更多的知识，文中提到，如果你把自己知道的知识告诉别人，别人能听懂10%,那么你自己就能掌握95%,所以真的要乐于分享知识。<br>
+<img src="http://bakbio.xjshen.cn/v2-f7e72493d0c682e1f02897d17f1e926d_r.jpg" alt="此处输入图片的描述"><br>
+思维导图----就是把自己的知识体系用思维导图的方式整理出来，能更好的帮助大脑管理知识，并且思维导图写的要精简</p>
+<p>刻意练习----跳出自己的舒适圈<br>
+艾宾斯浩遗忘曲线----我们学到的知识在大脑里是有一定的记忆的，学习过的东西要进行规律的记忆和复习</p>
+<p>黄金圈法则—提高思考的深度，做一件事情，首先要用为什么、怎么做、是什么的顺序进行思考</p>
+<p>下图是关于测试基础整理,大致分为以下几点<br>
+<img src="http://bakbio.xjshen.cn/WX20200308-163412@2x.png" alt="此处输入图片的描述"></p>
+<hr>
+<p>下面我们就来总结下这几大点（用自己的语言整理）</p>
+<h4><span id="软件测试的目的">软件测试的目的</span></h4>
+<ul>
+<li>软件测试是为了发现错误，证明系统有错误的过程</li>
+</ul>
+<hr>
+<h4><span id="软件测试的原则">软件测试的原则</span></h4>
+<ul>
+<li>不能让开发测试自己写的程序</li>
+<li>测试依据都来源于用户需求</li>
+<li>测试任务要尽早的执行</li>
+<li>穷尽测试是不可能的</li>
+<li>80%的缺陷在20%的模块中（2/8原则）</li>
+<li>杀虫剂怪事，一直使用同一种测试方法可能无法发现新bug</li>
+</ul>
+<hr>
+<p>####软件测试的方法</p>
+<p>从设计方法分类</p>
+<ul>
+<li>黑盒测试</li>
+<li>白盒测试</li>
+<li>灰盒测试</li>
+</ul>
+<p>从执行过程分类</p>
+<ul>
+<li>单元测试</li>
+<li>功能测试（模块测试）</li>
+<li>集成测试（有依赖关系的模块组合测试）</li>
+<li>系统测试（对整个系统进行的测试）</li>
+<li>Alpha 测试（在真实的用户环境下测试）</li>
+<li>Beta 测试（公测）</li>
+</ul>
+<p>按照测试对象分类</p>
+<ul>
+<li>性能测试</li>
+<li>安全性测试</li>
+<li>兼容性测试</li>
+<li>界面测试</li>
+<li>用户体验测试</li>
+<li>业务测试</li>
+</ul>
+<hr>
+<h4><span id="软件测试的分类">软件测试的分类</span></h4>
+<p><img src="http://bakbio.xjshen.cn/WX20200309-114946@2x.png" alt="此处输入图片的描述"></p>
+<hr>
+<h4><span id="软件测试流程">软件测试流程</span></h4>
+<h5><span id="需求分析"><strong>需求分析</strong></span></h5>
+<p>软件测试原则中其中有一点就是测试依据都来源于需求，所有第一步我们要测试需求分析<br>
+<strong>需求分析的目的</strong>：将用户需求转化为功能功能需求<br>
+<strong>怎么进行需求分析</strong>：拿到一份需求文档或参与需求分析会议时，测试人员需要明确几点信息<br>
+业务功能：与用户实际相关的功能<br>
+辅助功能：业务功能外的辅助功能，如，有哪些过滤条件<br>
+数据约束：数据的显示范围<br>
+易用性：业务细节，如：快捷键操作等<br>
+编辑约束：如：只能输入数字<br>
+参数约束：根据参数的不同操作的功能就不同<br>
+权限约束：哪些用户权限操作哪一部分功能<br>
+性能约束：需要满足哪些性能需求</p>
+<hr>
+<h4><span id="测试计划">测试计划</span></h4>
+<p>测试计划的内容包含：产品概述、测试策略、测试方法、测试配置、测试周期、人员安排、风险分析。便于管理人员跟踪和控制测试的进度。</p>
+<hr>
+<h4><span id="设计测试用例">设计测试用例</span></h4>
+<p><strong>设计测试用例的前提</strong>：当我们拿到一份需求规格说明书后，需要通过自己的分析理解整理成一份测试需求，具体有哪些功能，业务流程是怎样的，找出主流程、备选流、和数据流向<br>
+<strong>设计测试用例的方法</strong>: 等价类、边界值、<strong>因果图</strong>、<strong>判定表</strong>、<strong>正交实验</strong>、<strong>场景法</strong>、错误推断<br>
+设计测试用例时尽量多的考虑无效等价类<br>
+<strong>用例评审</strong>：检查用例是否覆盖100%需求、2、语义是否清晰易懂，因为用例不只是给执行测试的人看、开发、产品都可能要看<br>
+<strong>用例管理维护</strong>：写完的用例是需要维护的，需求变更时需求进行测试用例的更新</p>
+<p><strong>测试用例包含哪些属性</strong>：<br>
+标题、前置条件、测试数据、操作步骤、预期结果、优先级</p>
+<hr>
+<h4><span id="执行测试用例">执行测试用例</span></h4>
+<p>执行测试用例时需要注意的点：</p>
+<ol>
+<li>需要按照用例的优先级来执行</li>
+<li>如预估的时间不够需要向上级报告，先保证质量优先</li>
+<li>多重视不易重现的缺陷</li>
+<li>尽可能的进行交叉测试</li>
+</ol>
+<hr>
+<h4><span id="如何编写缺陷报告">如何编写缺陷报告</span></h4>
+<p>缺陷报告包含的内容有哪些？<br>
+标题、测试环境、重现步骤、测试数据、版本信息、预期结果、实际结果、缺陷的严重程度、缺陷优先级</p>
+<h4><span id="线上回归测试">线上回归测试</span></h4>
+<p>线上回归测试需要注意的点</p>
+<ol>
+<li>线上回归测试一定要及时</li>
+<li>线上出现bug第一时间通知相关开发人员，缺陷管理系统中记录好bug，及时更新用例库</li>
+<li>除了当前版本需要回归测试，产品的主流程也需要回归测试，可以借助自动化测试。</li>
+</ol>
+<hr>
+<h4><span id="软件测试的设计">软件测试的设计</span></h4>
+<p>这里主要详细讲解设计测试用例的方法<br>
+<strong>等价类</strong>：<br>
+一个取值范围中的有效输入为有效等价类，取值范围外的是无效等价类<br>
+<strong>边界值</strong>：<br>
+是等价类的补充，确定等价类的边界即可，很多程序错误都发生在边界<br>
+<strong>判定表</strong>：<br>
+判定表是多种条件下执行不同操作的方法，设计用例是列出所以的条件和动作。<br>
+<strong>场景法</strong><br>
+项目中涉及业务流程的地方多考虑场景法，梳理出主流程、备选流、异常流<br>
+比如：主流程：插卡-输入密码-输入金额-取钱-取卡，<br>
+备选流：插卡-输入错误密码-输入正确密码-输入金额-取款-取卡<br>
+异常流：插卡-输入3次错误密码-吞卡<br>
+<strong>因果图</strong><br>
+等价类和边界值多考虑的是输入的情况，但是没有考虑到多种输入的组合的情况，</p>
+<hr>
+<h4><span id="测试执行">测试执行</span></h4>
+<p>测试的准入和准出原则</p>
+<p>准入原则</p>
+<ol>
+<li>开发自测通过</li>
+<li>需求规定的功能都已经实现</li>
+<li>已经完成集成测试，基本流程可以走通</li>
+<li>开发提交的是最新版本，并且通知测试进行测试</li>
+<li>兼容性、性能、安全性要求明确</li>
+</ol>
+<p>准出原则：</p>
+<ol>
+<li>被测项目是否满足需求</li>
+<li>所有测试用例是否全部执行</li>
+<li>测试覆盖率是否到达100%</li>
+<li>所有缺陷是否已经记录在缺陷管理系统中</li>
+<li>一二级错误修复率是否达到100%</li>
+<li>三四级错误修复率是否到达95%</li>
+<li>所有遗留问题已经有解决方案</li>
+<li>性能指标是否达到要求</li>
+<li>兼容性、安全性是否达到要求</li>
+</ol>
+<p>缺陷报告的原则在测试流程已经写到</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2019/01/02/聊聊如何做好功能测试/" data-toggle="tooltip" data-placement="top" title="聊聊如何做好功能测试">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2018/08/26/Python-request-unittest搭建接口自动化框架/" data-toggle="tooltip" data-placement="top" title="Python+request+unittest搭建接口自动化框架">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#功能测试" title="功能测试">功能测试</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2018/12/24/软件测试知识体系整理/";
+    var disqus_url = "http://bakbio.cn/2018/12/24/软件测试知识体系整理/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
