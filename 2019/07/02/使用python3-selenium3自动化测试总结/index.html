@@ -144,6 +144,13 @@
 
                         
                         <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -152,13 +159,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -226,9 +226,7 @@
 <li>日志模块</li>
 <li>Jenkins持续集成</li>
 </ul>
-<p>安装selenium</p>
-<p>selenium 中的高级应用 webDriverWait<br>
-expected_conditions</p>
+<hr>
 <p>如何一步一步的搭建自动化测试框架</p>
 <h4><span id="先写一个简单的登录demo">先写一个简单的登录demo</span></h4>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">driver = webdriver.Chrome(<span class="string">"/Users/wuwei/Desktop/张丽/chromedriver"</span>)</span><br><span class="line">driver.get(<span class="string">"https:/fdgdfg/"</span>)</span><br><span class="line">time.sleep(<span class="number">2</span>)</span><br><span class="line">driver.maximize_window()</span><br><span class="line">ph = driver.find_element_by_id(<span class="string">"ph"</span>).find_element_by_tag_name(<span class="string">"input"</span>)</span><br><span class="line">ph.send_keys(<span class="string">"13234434322"</span>)</span><br><span class="line">pw = driver.find_element_by_id(<span class="string">"pw"</span>).find_element_by_tag_name(<span class="string">"input"</span>)</span><br><span class="line">pw.send_keys(<span class="string">"654321"</span>)</span><br><span class="line">loginBtn = driver.find_element_by_css_selector(<span class="string">".btn"</span>)</span><br><span class="line">loginBtn.click()</span><br></pre></td></tr></table></figure>
@@ -321,8 +319,13 @@ loginPage</p>
 <li>导入ddt,xlrd模块</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ddt</span><br><span class="line"><span class="keyword">import</span> xlrd</span><br></pre></td></tr></table></figure>
-<p>具体实现步骤</p>
+<p>将测试数据整理到Excel中<br>
+<img src="http://bakbio.xjshen.cn/WX20200322-110954@2x.png" alt="此处输入图片的描述"></p>
+<p>读取Excel每条数据，并返回</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RdExcel</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,pathname=None,index=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> pathname == <span class="literal">None</span>:</span><br><span class="line">            pathname = <span class="string">"/Users/wuwei/python/zlTest/unil/loginData.xlsx"</span></span><br><span class="line">        <span class="keyword">if</span> index == <span class="literal">None</span>:</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line">        self.book = xlrd.open_workbook(pathname)</span><br><span class="line">        self.sheet = self.book.sheet_by_index(index)</span><br><span class="line">        self.row = self.sheet.nrows</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">(self)</span>:</span></span><br><span class="line">        data = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, self.row):</span><br><span class="line">           row = self.sheet.row_values(i)</span><br><span class="line">           new_row = []</span><br><span class="line">           <span class="keyword">for</span> line <span class="keyword">in</span> row:</span><br><span class="line">               <span class="keyword">if</span> type(line) == float:</span><br><span class="line">                   new_row.append(int(line))</span><br><span class="line">               <span class="keyword">else</span>:</span><br><span class="line">                    new_row.append(line)</span><br><span class="line">           data.append(new_row)</span><br><span class="line">        <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    excel = RdExcel()</span><br><span class="line">    print(excel.get_data())</span><br></pre></td></tr></table></figure>
+<p>导入ddt模块,具体实现如下<br>
+ddt读取组合中的数据（@unpack）<br>
+<img src="http://bakbio.xjshen.cn/WX20200322-111436@2x.png" alt="此处输入图片的描述"></p>
 <h3><span id="关键字模型">关键字模型</span></h3>
 <h4><span id="概念">概念：</span></h4>
 <p>关键字模型就是将需要测试的步骤用关键字来执行，如我们的登录功能，步骤就是打开浏览器、输入URl地址、输入用户名、密码、点击登录按钮等步骤，将这些步骤放在Excel中去，每次去执行用例的时候就只需要去修改Excel文件就好了。</p>
