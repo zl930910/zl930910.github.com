@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="http://bakbio.xjshen.cn/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Python+request+unittest搭建接口自动化框架 - ZHANGLI
+        
+    </title>
+
+    <link rel="canonical" href="http://bakbio.cn/2018/08/26/Python-request-unittest实现接口自动化/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://bakbio.xjshen.cn/demo.png')
+            /*post*/
+        
+    }
+    
+    #signature{
+        background-image: url('http://bakbio.xjshen.cn/icon_wechat.png');
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#接口自动化测试" title="接口自动化测试">接口自动化测试</a>
+                            
+                        </div>
+                        <h1>Python+request+unittest搭建接口自动化框架</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by 九月 on
+                            2018-08-26
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">九月</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <p>在平时的测试工作中，不知道大家会不会有这样的感受，面对重复繁杂枯燥的测试工作，时常感到力不从心，最重要的是每次上线后的回归测试，效率是不是特别低，怎么样才能快速的验证线上已有的功能是否正常，这就考虑到接口自动化测试了，真的是提高效率呀！接下来我们就来看看怎么去用python+request搭建自动化测试框架。</p>
+<hr>
+<p>前期准备<br>
+1、在Excel中准备数据<br>
+2、使用request封装post请求和get请求<br>
+3、使用python读取Excel中的数据<br>
+4、使用Python连接数据库，从数据库中获取请求数据<br>
+5、测试接口，返回对应的响应数据<br>
+6、解决接口的关联问题<br>
+7、对比预期结果和实际结果，将测试结果写入到Excel中去<br>
+8、发送测试邮件</p>
+<hr>
+<h3><span id="1-准备用例">1、准备用例</span></h3>
+<p>将接口名称、接口url、请求数据、预期结果、实际结果写入到Excel中<br>
+<img src="http://bakbio.xjshen.cn/WX20191130-150650@2x.png" alt="此处输入图片的描述"></p>
+<h3><span id="2-封装post请求和get请求">2、封装post请求和get请求</span></h3>
+<p>使用Python中比较好用的request库</p>
+<h4><span id="安装request">安装request</span></h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install request</span><br></pre></td></tr></table></figure>
+<h4><span id="封装两种请求方式get请求和post请求">封装两种请求方式get请求和post请求</span></h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#发送get请求</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">send_get</span><span class="params">(self,url,data,headers=None)</span>:</span></span><br><span class="line">       res = <span class="literal">None</span></span><br><span class="line">       code = <span class="literal">None</span></span><br><span class="line">       <span class="keyword">if</span> headers != <span class="literal">None</span>:</span><br><span class="line">           res = requests.get(url=url,params=data,headers=headers)</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           res = requests.get(url=url,params=data)</span><br><span class="line">       code = res.status_code</span><br><span class="line">       <span class="comment"># print(code)</span></span><br><span class="line">       <span class="keyword">return</span> res.json()</span><br><span class="line"></span><br><span class="line">   <span class="comment">#发送post请求</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">send_post</span><span class="params">(self,url,data,headers=None)</span>:</span></span><br><span class="line">       res = <span class="literal">None</span></span><br><span class="line">       <span class="keyword">if</span> headers != <span class="literal">None</span>:</span><br><span class="line">           res = requests.post(url=url,data=data,headers=headers)</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           res = requests.post(url=url,data=data)</span><br><span class="line">       code = res.status_code</span><br><span class="line">       print(code)</span><br><span class="line">       <span class="keyword">return</span> res.json()</span><br><span class="line"></span><br><span class="line">   <span class="comment">#请求入口</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">run_method</span><span class="params">(self,url,data,method,headers=None)</span>:</span></span><br><span class="line">       res = <span class="literal">None</span></span><br><span class="line">       <span class="keyword">if</span> method == <span class="string">'post'</span>:</span><br><span class="line">           res = self.send_post(url,data,headers)</span><br><span class="line">       <span class="keyword">else</span>:</span><br><span class="line">           res = self.send_get(url,data,headers)</span><br><span class="line">       <span class="keyword">return</span> json.dumps(res,indent=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h3><span id="3-封装读取excel中的数据所要用到的方法">3、封装读取Excel中的数据所要用到的方法</span></h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">operationExcel</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,file_name=None,sheet_id=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> file_name != <span class="literal">None</span>:</span><br><span class="line">            self.sheet_id = sheet_id</span><br><span class="line">            self.file_name = file_name</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.file_name = <span class="string">'../dataconfig/进销存.xls'</span></span><br><span class="line">            self.sheet_id = <span class="number">0</span></span><br><span class="line">        self.data = self.get_data()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取Excel中的数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">(self)</span>:</span></span><br><span class="line">        data = xlrd.open_workbook(self.file_name)</span><br><span class="line">        table = data.sheet_by_index(self.sheet_id)</span><br><span class="line">        <span class="keyword">return</span> table</span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取所有行数</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_lines</span><span class="params">(self)</span>:</span></span><br><span class="line">       <span class="keyword">return</span> self.data.nrows</span><br><span class="line"></span><br><span class="line">    <span class="comment">#获取单元格中的数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_cell_data</span><span class="params">(self,row,col)</span>:</span></span><br><span class="line">        <span class="keyword">return</span>  self.data.cell_value(row,col)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#通过行号返回行数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_row_data</span><span class="params">(self,case_id)</span>:</span></span><br><span class="line">        row_num =  self.get_line_num(case_id)</span><br><span class="line">        row_data = self.data.row_values(row_num)</span><br><span class="line">        <span class="keyword">return</span> row_data</span><br><span class="line"></span><br><span class="line">    <span class="comment">#根据case_id找到行号</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_line_num</span><span class="params">(self,case_id)</span>:</span></span><br><span class="line">       num =<span class="number">0</span></span><br><span class="line">       cols_data =  self.get_col_data()</span><br><span class="line">       <span class="keyword">for</span> x <span class="keyword">in</span> cols_data:</span><br><span class="line">           <span class="keyword">if</span> case_id <span class="keyword">in</span> x:</span><br><span class="line">               <span class="keyword">return</span> num</span><br><span class="line">           num=num+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#通过列的id获取列内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_col_data</span><span class="params">(self,col_id=None)</span>:</span></span><br><span class="line">        res =<span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> col_id != <span class="literal">None</span>:</span><br><span class="line">            res = self.data.col_values(col_id)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res = self.data.col_values(<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    oper = operationExcel(<span class="string">'../dataconfig/interface.xls'</span>,<span class="number">0</span>)</span><br><span class="line">    res = oper.get_cell_data(<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line">    print(res)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="4-连接数据库从数据库中获取请求数据">4、连接数据库，从数据库中获取请求数据</span></h3>
+<p>请求数据可能有很多条，为了方便造数据，直接将请求数据放到数据库中,这里我们使用的是pyMysql</p>
+<h4><span id="1-python安装pymysql">1、python安装pyMysql</span></h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pyMysql</span><br></pre></td></tr></table></figure>
+<h4><span id="2-安装navicat-premium客户端">2、安装Navicat Premium客户端</span></h4>
+<h4><span id="3-安装mysql-服务">3、安装mySql 服务</span></h4>
+<h4><span id="4-python连接数据库">4、python连接数据库</span></h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="comment">#创建链接</span></span><br><span class="line">    self.conn = pymysql.connect(</span><br><span class="line">            host=<span class="string">'127.0.0.1'</span>,</span><br><span class="line">            port=<span class="number">3306</span>,</span><br><span class="line">            user=<span class="string">'root'</span>,</span><br><span class="line">            password=<span class="string">'xxx'</span>,</span><br><span class="line">            db=<span class="string">'shandianShop_Interface'</span>,</span><br><span class="line">            charset=<span class="string">'utf8'</span>,</span><br><span class="line">            cursorclass=pymysql.cursors.DictCursor</span><br><span class="line">    )</span><br><span class="line">    <span class="comment">#创建游标</span></span><br><span class="line">    self.cursor = self.conn.cursor()</span><br><span class="line"></span><br><span class="line"><span class="comment">#搜索一条数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search_one</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">    self.cursor.execute(sql)</span><br><span class="line">    res = self.cursor.fetchone()</span><br><span class="line">    <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<p>将sql语句写入到Excel中“请求数据”中，读取每行的数据时，获取sql语句</p>
+<h3><span id="5-测试接口返回对应的响应数据">5、测试接口，返回对应的响应数据</span></h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_test</span><span class="params">(self)</span>:</span></span><br><span class="line">    lines = self.data.get_case_lines()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,lines):</span><br><span class="line">        is_run = self.data.get_Run(i) <span class="comment">#获取是否运行</span></span><br><span class="line">        method = self.data.get_requests_Method(i) <span class="comment">#获取每行的请求方法</span></span><br><span class="line">        url =  self.data.get_Url(i) <span class="comment">#获取请求url</span></span><br><span class="line">        data = self.data.get_data_from_db(i) <span class="comment"># 获取每行的请求数据（数据从数据库中查询）</span></span><br><span class="line">        new_data = self.token.global_variable(data, i) <span class="comment">#设置全局变量，重新组装请求数据</span></span><br><span class="line">        expect =  self.data.get_expect(i) <span class="comment"># 获取期望数据</span></span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line">        <span class="keyword">if</span> is_run == <span class="literal">True</span>:</span><br><span class="line">            res = self.run.run_method(url,new_data,method)</span><br><span class="line">            print(res)</span><br><span class="line">        print(url)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="6-解决接口之间依赖的问题">6、解决接口之间依赖的问题</span></h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,lines):</span><br><span class="line">           is_run = self.data.get_Run(i)</span><br><span class="line">           method = self.data.get_requests_Method(i)</span><br><span class="line">           url =  self.data.get_Url(i)</span><br><span class="line">           data = self.data.get_data_from_db(i)</span><br><span class="line">           new_data = self.token.global_variable(data, i)</span><br><span class="line">           expect =  self.data.get_expect(i)</span><br><span class="line">           <span class="comment"># print(data)</span></span><br><span class="line">           <span class="keyword">if</span> is_run == <span class="literal">True</span>: <span class="comment"># 运行</span></span><br><span class="line">               is_depend = self.data.get_depend(i) <span class="comment">#获取依赖的数据</span></span><br><span class="line">               <span class="keyword">if</span> is_depend != <span class="literal">None</span>:</span><br><span class="line">                   self.depend = dependData(is_depend)</span><br><span class="line">                   depend_key = self.data.get_field(i) <span class="comment">#获取需要依赖的字段</span></span><br><span class="line">                   depend_str = depend_key.split(<span class="string">","</span>) <span class="comment">#可能有多个依赖字段</span></span><br><span class="line">                   depend_list = list(depend_str)</span><br><span class="line">                   <span class="keyword">for</span> x <span class="keyword">in</span> depend_list:</span><br><span class="line">                       <span class="keyword">if</span> x != <span class="string">''</span>:</span><br><span class="line">                           index_data = depend_list.index(x)</span><br><span class="line">                           one_data = self.depend_response_data(i, index_data) <span class="comment">#拿到新依赖数据重新去请求接口，返回响应数据</span></span><br><span class="line">                           <span class="comment"># 将依赖的数据更新到请求数据中去</span></span><br><span class="line">                           new_data[x] = one_data</span><br><span class="line">               <span class="comment"># print(new_data)</span></span><br><span class="line">               res = self.run.run_method(url,new_data,method) <span class="comment">#将新的组装的接口重新去请求数据</span></span><br><span class="line">               print(res)</span><br><span class="line">               </span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">depend_response_data</span><span class="params">(self, row, data_index)</span>:</span></span><br><span class="line">       depend_response_data = self.depend.get_data_for_key(row)</span><br><span class="line">       data = depend_response_data[data_index]</span><br><span class="line">       <span class="comment"># print(data)</span></span><br><span class="line">       <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="7-对比预期结果和实际结果将测试结果写入到excel中去">7、对比预期结果和实际结果，将测试结果写入到Excel中去</span></h3>
+<h4><span id="1-封装写入excel的方法">1、封装写入Excel的方法</span></h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">   思路：1、读取需要写入的Excel</span></span><br><span class="line"><span class="string">        2、将读取的数据备份</span></span><br><span class="line"><span class="string">        3、在备份的数据中写入数据</span></span><br><span class="line"><span class="string">        4、重新保存一次文件</span></span><br><span class="line"><span class="string">   '''</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">write_excel</span><span class="params">(self,col,row,value)</span>:</span></span><br><span class="line">       read_data = xlrd.open_workbook(self.file_name)</span><br><span class="line">       write_data = copy(read_data)</span><br><span class="line">       sheet_data = write_data.get_sheet(<span class="number">0</span>)</span><br><span class="line">       sheet_data.write(row, col, value)</span><br><span class="line">       write_data.save(self.file_name)</span><br></pre></td></tr></table></figure>
+<h4><span id="2-对比预期结果和实际结果">2、对比预期结果和实际结果</span></h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,lines):</span><br><span class="line">           is_run = self.data.get_Run(i)</span><br><span class="line">           method = self.data.get_requests_Method(i)</span><br><span class="line">           url =  self.data.get_Url(i)</span><br><span class="line">           data = self.data.get_data_from_db(i)</span><br><span class="line">           new_data = self.token.global_variable(data, i)</span><br><span class="line">           expect =  self.data.get_expect(i)</span><br><span class="line">           <span class="comment"># print(data)</span></span><br><span class="line">           <span class="keyword">if</span> is_run == <span class="literal">True</span>:</span><br><span class="line">               is_depend = self.data.get_depend(i)</span><br><span class="line">               <span class="keyword">if</span> is_depend != <span class="literal">None</span>:</span><br><span class="line">                   self.depend = dependData(is_depend)</span><br><span class="line">                   depend_key = self.data.get_field(i)</span><br><span class="line">                   depend_str = depend_key.split(<span class="string">","</span>)</span><br><span class="line">                   depend_list = list(depend_str)</span><br><span class="line">                   <span class="keyword">for</span> x <span class="keyword">in</span> depend_list:</span><br><span class="line">                       <span class="keyword">if</span> x != <span class="string">''</span>:</span><br><span class="line">                           index_data = depend_list.index(x)</span><br><span class="line">                           one_data = self.depend_response_data(i, index_data)</span><br><span class="line">                           <span class="comment"># 将依赖的数据更新到请求数据中去</span></span><br><span class="line">                           new_data[x] = one_data</span><br><span class="line">               <span class="comment"># print(new_data)</span></span><br><span class="line">               res = self.run.run_method(url,new_data,method)</span><br><span class="line">               print(res)</span><br><span class="line">               <span class="keyword">if</span> self.util.content(expect,res): <span class="comment">#期望结果是否包含在实际结果中</span></span><br><span class="line">                   self.data.write_result(i,<span class="string">"pass"</span>) <span class="comment">#包含结果则通过测试</span></span><br><span class="line">                   pass_list.append(i)</span><br><span class="line">               <span class="keyword">else</span>:</span><br><span class="line">                   self.data.write_result(i,res) <span class="comment">#不包含则将响应数据写入到Excel中</span></span><br><span class="line">                   fail_list.append(i)</span><br><span class="line">           print(url)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3><span id="8-发送测试邮件">8、发送测试邮件</span></h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install smtplib</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sendEmail</span>:</span></span><br><span class="line">    <span class="keyword">global</span> send_user</span><br><span class="line">    <span class="keyword">global</span> email_host</span><br><span class="line">    <span class="keyword">global</span> pass_word</span><br><span class="line">    send_user = <span class="string">"13438835455@163.com"</span></span><br><span class="line">    pass_word = <span class="string">""</span></span><br><span class="line">    email_host = <span class="string">"smtp.163.com"</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_email</span><span class="params">(self,user_list,sub,content)</span>:</span></span><br><span class="line">        user = <span class="string">"张丽"</span> + <span class="string">"&lt;"</span> + send_user + <span class="string">"&gt;"</span></span><br><span class="line">        message = MIMEText(content, <span class="string">"plain"</span>, <span class="string">"utf-8"</span>)  <span class="comment"># 设置发送邮件的格式</span></span><br><span class="line">        message[<span class="string">'subject'</span>] = sub</span><br><span class="line">        message[<span class="string">'From'</span>] = user</span><br><span class="line">        message[<span class="string">'To'</span>] = <span class="string">";"</span>.join(user_list)</span><br><span class="line">        server = smtplib.SMTP()</span><br><span class="line">        server.connect(email_host)</span><br><span class="line">        server.login(send_user, pass_word)</span><br><span class="line">        server.sendmail(user, user_list, message.as_string())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 发送测试邮件的主方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_main</span><span class="params">(self, pass_list, fail_list)</span>:</span></span><br><span class="line">        pass_num = len(pass_list)  <span class="comment"># 成功的用例数</span></span><br><span class="line">        fail_num = len(fail_list)  <span class="comment"># 失败的用例数</span></span><br><span class="line">        case_count = pass_num + fail_num  <span class="comment"># 总共的用例数</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 90% percent: &#123;:.2f&#125;% 表示保留小数点后两位</span></span><br><span class="line">        pass_result = <span class="string">"&#123;:.2f&#125;%"</span>.format(pass_num / case_count * <span class="number">100</span>)</span><br><span class="line">        fail_result = <span class="string">"&#123;:.2f&#125;%"</span>.format(fail_num / case_count * <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">        user_list = [<span class="string">"1358725677@qq.com"</span>]</span><br><span class="line">        sub = <span class="string">"接口自动化测试邮件"</span></span><br><span class="line">        content = <span class="string">"此次运行用例%s个，成功%s个,失败%s个，成功率为%s，失败率为%s"</span> % (case_count, pass_num, fail_num, pass_result, fail_result)</span><br><span class="line">        self.send_email(user_list, sub, content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    send = sendEmail()</span><br><span class="line">    pass_num = [<span class="string">"1"</span>,<span class="string">"2"</span>]</span><br><span class="line">    fail_num = [<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>]</span><br><span class="line">    send.send_main(pass_num,fail_num)</span><br></pre></td></tr></table></figure>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2018/12/24/软件测试知识体系整理/" data-toggle="tooltip" data-placement="top" title="软件测试知识体系整理">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2017/10/14/selenium之PO设计模式/" data-toggle="tooltip" data-placement="top" title="selenium之PO设计模式">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#接口自动化测试" title="接口自动化测试">接口自动化测试</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://testerhome.com/" target="_blank">testerhome</a></li>
+                    
+                        <li><a href="http://vmartaw.com/zcc/" target="_blank">ww&#39;s Blog</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "your-disqus-ID";
+    var disqus_identifier = "http://bakbio.cn/2018/08/26/Python-request-unittest实现接口自动化/";
+    var disqus_url = "http://bakbio.cn/2018/08/26/Python-request-unittest实现接口自动化/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/YenYuHsuan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/zhangli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/yu-hsuan-yen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 九月 2020 
+                    <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://beantech.org">BeanTech</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YenYuHsuan&repo=hexo-theme-beantech&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://bakbio.cn/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://bakbio.xjshen.cn/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
