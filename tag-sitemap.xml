@@ -108,7 +108,14 @@
 
     <url>
         <loc>http://bakbio.cn/tags/%E7%94%9F%E6%B4%BB/</loc>
-        <lastmod>2020-04-11T03:38:05.000Z</lastmod>
+        <lastmod>2020-05-02T09:28:03.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://bakbio.cn/tags/app/</loc>
+        <lastmod>2020-05-02T09:28:27.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
