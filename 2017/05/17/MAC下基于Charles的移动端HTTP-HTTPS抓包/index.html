@@ -214,7 +214,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>关于移动端的测试肯定会涉及到移动端的抓包，我们常用的就是fiddler，但是在mac中是没有fiddler这个工具的，因此就安装了Charles，用下来的感受就是Charles感觉比fiddler简洁多了，接下来是关于怎么样抓取移动端的http/https</p>
+                <p>关于移动端的测试肯定会涉及到移动端的抓包，我们常用的就是fiddler，而charles抓取的数据比较全面，因此就安装了Charles，用下来的感受就是Charles感觉比fiddler简洁多了，接下来是关于怎么样抓取移动端的http/https</p>
 <hr>
 <h3><span id="mac下基于charles的移动端httphttps抓包">MAC下基于Charles的移动端HTTP/HTTPS抓包</span></h3>
 <p>首先查看mac的ip地址<br>
@@ -227,10 +227,14 @@
 <hr>
 <h3><span id="在mac上安装charles代理软件">在mac上安装charles代理软件</span></h3>
 <p>下载地址：<a href="http://charles.iiilab.com/" target="_blank" rel="noopener">http://charles.iiilab.com/</a><br>
-在Windows上可以使用fiddler代理软件，但是在mac上是不能运行fiddler的，所以就用charles</p>
+在Windows上可以使用fiddler代理软件。</p>
 <hr>
 <h3><span id="关于https抓包">关于https抓包</span></h3>
-<p>1、先下载安装证书<br>
+<p>打开Charles，查看证书下载地址<br>
+<img src="http://bakbio.xjshen.cn/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-05-24%20%E4%B8%8A%E5%8D%8811.56.52.png" alt="此处输入图片的描述"></p>
+<p>在手机端访问下载地址，直接下载证书<br>
+<img src="http://bakbio.xjshen.cn/WX20200524-120142@2x.png" alt="此处输入图片的描述"></p>
+<p>另外第二种方法下载安装证书<br>
 安装地址：<a href="https://www.charlesproxy.com/documentation/additional/legacy-ssl-proxying/" target="_blank" rel="noopener">https://www.charlesproxy.com/documentation/additional/legacy-ssl-proxying/</a><br>
 <strong>IOS</strong>：在手机浏览器中访问该链接，进行安装就行了<br>
 <strong>Android</strong>：这里需要说明的是，在ios手机中，只需要在浏览器中直接进行安装，但如果是Android手机的话，则需要在pc端下载证书，然后push到手机的根目录，最后需要到【设置】-【安全】-【从内部存储设备或者SD卡安装】中，选中证书进行安装<br>
