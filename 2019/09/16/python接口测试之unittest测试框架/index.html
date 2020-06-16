@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          java基础总结（上） - ZHANGLI
+          python接口测试之unittest测试框架 - ZHANGLI
         
     </title>
 
-    <link rel="canonical" href="http://bakbio.cn/2015/06/18/java基础总结（上/">
+    <link rel="canonical" href="http://bakbio.cn/2019/09/16/python接口测试之unittest测试框架/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,14 +90,12 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#java" title="java">java</a>
-                            
                         </div>
-                        <h1>java基础总结（上）</h1>
+                        <h1>python接口测试之unittest测试框架</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 九月 on
-                            2015-06-18
+                            2019-09-16
                         </span>
                     </div>
                 
@@ -214,41 +212,47 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h3><span id="java概述">java概述</span></h3>
-<p>简单的说java是一种跨平台的面向对象的程序设计语言。java 技术具有卓越的通用性、高效性、平台移植性和安全性，广泛应用于个人PC、数据中心、游戏控制台、科学超级计算机、移动电话和互联网，同时拥有全球最大的开发者专业社群。</p>
-<hr>
-<h3><span id="java的特点">java的特点</span></h3>
+                <p>unittest文档：<a href="https://docs.python.org/zh-cn/3.7/library/unittest.html#basic-example" target="_blank" rel="noopener">https://docs.python.org/zh-cn/3.7/library/unittest.html#basic-example</a><br>
+首先unittest是一个类似于Java中的junit单元测试框架，在接口测试中，主要用于编写或管理测试用例，unittest中主要包含以下内容：</p>
 <ol>
-<li>面向对象： 在java中的一切都是对象，容易扩展。</li>
-<li>平台无关性： java运行在JVM虚拟机上，不受平台的约束。</li>
-<li>安全性： java不支持指针，有相应的内存处理机制，安全性高。</li>
-<li>多线程： Java是第一个在语言级提供内至多线程支持的高级语言</li>
-<li>内存管理 Java对内存自动进行管理并进行垃圾回收</li>
+<li>测试用例（TestCase）</li>
+<li>测试套件（testSuite）</li>
+<li>测试加载器 （testLoader）</li>
+<li>测试运行器（testRunner）</li>
 </ol>
 <hr>
-<h3><span id="java的基础语法">java的基础语法</span></h3>
+<h4><span id="测试用例testcase">测试用例（testCase）</span></h4>
 <ol>
-<li>关键字： 某种语言被赋予了特殊含义的单词，this。</li>
-<li>标识符： 程序中自定义的名词（注：不能以数字开头，不可使用关键字）</li>
-<li>常量： 程序运行中不可变的值。</li>
-<li>变量： 程序运行中可变的值。</li>
-<li>数据类型：基本数据类型：char、byte、int、long 、short、double、float、Boolean 引用数据类型：数组、类、接口</li>
-<li>super和this的区别：this调用当前类对象，super调用父类对象。</li>
-<li>作用域 public,protected,private,以及不写时的区别：<br>
-pulic:所有地方都可以访问<br>
-protected：不同包的子类，同一包、当前内可以访问<br>
-private：当前类能访问<br>
-默认：同一包，当前类</li>
-<li>final关键字：注：属性不可变，方法不可重写，类不可继承。</li>
+<li>需要继承unittest.TestCase</li>
+<li>测试用例的方法名需要以test开头</li>
+<li>最终通过断言返回测试结果</li>
+<li>调用unittest.main()运行测试用例</li>
 </ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">testCase</span><span class="params">(unittest.TestCase)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_01</span><span class="params">(self)</span>:</span></span><br><span class="line">        a = <span class="number">2</span>;</span><br><span class="line">        b = <span class="number">1</span>;</span><br><span class="line">        c = a+b;</span><br><span class="line">        self.assertEqual(<span class="number">3</span>,c)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_02</span><span class="params">(self)</span>:</span></span><br><span class="line">        a = <span class="number">2</span>;</span><br><span class="line">        b = <span class="number">2</span>;</span><br><span class="line">        c = a*b;</span><br><span class="line">        self.assertEqual(<span class="number">4</span>,c)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+<h4><span id="setup和teardown">setUp()和tearDown()</span></h4>
+<p>setup():每个测试用例运行之前执行，启动资源<br>
+teardown():每个测试用例运行之后执行，清理资源<br>
+setupClass():类执行之前<br>
+tearDownClass():类执行之后</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@classmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setUpClass</span><span class="params">(cls)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="meta">@classmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tearDownClass</span><span class="params">(cls)</span>:</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<h4><span id="测试套件">测试套件</span></h4>
+<p>测试套件是将测试用例组合到一起执行，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test_testSuite</span><span class="params">(unittest.TestCase)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Suite_test</span><span class="params">(self)</span>:</span></span><br><span class="line">        suite = unittest.TestSuite()</span><br><span class="line">        suite.addTest(Test_testSuite(<span class="string">"test_01"</span>))</span><br><span class="line">        <span class="keyword">return</span> suite</span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    suite = Test_testSuite()</span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    runner.run(suite.Suite_test())</span><br></pre></td></tr></table></figure>
+<p>另一种情况是当我们有很多测试类的时候，需要将这些测试类中的测试用例一起执行，需要用到TestSuite和Testloader，Testloaders是加载TestCase到TestSuite中的，具体实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">"/Users/zhangli/Documents/mukeinterface/test"</span>)</span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">from</span> UnittestCase.unittest_testCase <span class="keyword">import</span> testCase</span><br><span class="line"><span class="keyword">from</span> UnittestCase.unittest_testCase2 <span class="keyword">import</span> testCase02</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_case</span><span class="params">()</span>:</span></span><br><span class="line">    case1 = unittest.TestLoader.loadTestsFromTestCase(testCase())</span><br><span class="line">    case2 = unittest.TestLoader.loadTestsFromTestCase(testCase())</span><br><span class="line">    suite = unittest.TestSuite.addTest([case1,case2])</span><br><span class="line">    unittest.TestRunner.run(suite)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+<h5><span id="testcase的批量执行">testcase的批量执行</span></h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">"/Users/zhangli/Documents/mukeinterface/test"</span>)</span><br><span class="line"><span class="keyword">import</span> os </span><br><span class="line">case_case = os.getcwd()+<span class="string">"/test"</span></span><br><span class="line">print(case_case)</span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_case</span><span class="params">()</span>:</span></span><br><span class="line">    suite = unittest.defaultTestLoader.discover(case_case)</span><br><span class="line">    unittest.TestRunner.run(suite)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    unittest.main()</span><br></pre></td></tr></table></figure>
+<p>关于testloader上面只用到了loadTestsFromTestCase()方法，其中还包括loadTestsFromModule、loadTestsFromName、loadTestsFromNames、discover等方法，具体用法见官方文档</p>
+<p>@unittest.skip(“不执行此方法”) 跳过测试用例，当然还可以unittest.skipIf是否跳过,另外还有skipUnless、expectedFailure</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@unittest.skip("不执行此方法")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_02</span><span class="params">(self)</span>:</span></span><br><span class="line">    a = <span class="number">2</span>;</span><br><span class="line">    b = <span class="number">2</span>;</span><br><span class="line">    c = a*b;</span><br><span class="line">    self.assertEqual(<span class="number">4</span>,c)</span><br><span class="line"></span><br><span class="line"><span class="meta">@unittest.skipIf(mylib!="xxxxx","不执行")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_02</span><span class="params">(self)</span>:</span></span><br><span class="line">    a = <span class="number">2</span>;</span><br><span class="line">    b = <span class="number">2</span>;</span><br><span class="line">    c = a*b;</span><br><span class="line">    self.assertEqual(<span class="number">4</span>,c)</span><br></pre></td></tr></table></figure>
+<p>跳过测试类和跳过测试方法是一样的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@unittest.skip("不执行此类")</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test_testSuite</span><span class="params">(unittest.TestCase)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Suite_test</span><span class="params">(self)</span>:</span></span><br><span class="line">        suite = unittest.TestSuite()</span><br><span class="line">        suite.addTest(Test_testSuite(<span class="string">"test_01"</span>))</span><br><span class="line">        <span class="keyword">return</span> suite</span><br></pre></td></tr></table></figure>
 <hr>
-<h3><span id="面向对象的基本特征">面向对象的基本特征</span></h3>
-<ol>
-<li>抽象：找共性，将共有的属性和方法放到父类中。</li>
-<li>继承：子类继承父类，子类拥有父类的属性和方法，可以重用也可以覆盖。</li>
-<li>封装：一个类可以有多个属性和方法。</li>
-<li>多态：可以有多种形态来展示，重载和重写。</li>
-</ol>
+<h4><span id="unittest中断言">unittest中断言</span></h4>
+<p><img src="http://bakbio.xjshen.cn/WX20200609-154713@2x.png" alt="此处输入图片的描述"></p>
+<hr>
+<h4><span id="unittest中测试用例的执行顺序">unittest中测试用例的执行顺序</span></h4>
+<p>通过测试套件管理用例的执行顺序</p>
 
                 
 
@@ -256,13 +260,9 @@ private：当前类能访问<br>
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2015/06/23/java基础知识总结-下/" data-toggle="tooltip" data-placement="top" title="java基础知识总结(下)">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2015/05/24/MySql数据库总结/" data-toggle="tooltip" data-placement="top" title="MySql数据库总结">Next Post &rarr;</a>
+                            <a href="/2019/07/02/使用python3-selenium3自动化测试总结/" data-toggle="tooltip" data-placement="top" title="python3+selenium3自动化测试总结">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -287,6 +287,17 @@ private：当前类能访问<br>
             <!-- Tabe of Content -->
             <!-- Table of Contents -->
 
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">测试用例（testCase）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">setUp()和tearDown()</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">测试套件</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">testcase的批量执行</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">unittest中断言</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">unittest中测试用例的执行顺序</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
                 
             <!-- Sidebar Container -->
             <div class="
@@ -301,8 +312,6 @@ private：当前类能访问<br>
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#java" title="java">java</a>
-                        
                     </div>
                 </section>
                 
@@ -332,8 +341,8 @@ private：当前类能访问<br>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "http://bakbio.cn/2015/06/18/java基础总结（上/";
-    var disqus_url = "http://bakbio.cn/2015/06/18/java基础总结（上/";
+    var disqus_identifier = "http://bakbio.cn/2019/09/16/python接口测试之unittest测试框架/";
+    var disqus_url = "http://bakbio.cn/2019/09/16/python接口测试之unittest测试框架/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
