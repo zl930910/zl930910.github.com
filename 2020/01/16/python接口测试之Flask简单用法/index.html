@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          python接口测试之mock数据 - ZHANGLI
+          python接口测试之Flask简单用法 - ZHANGLI
         
     </title>
 
-    <link rel="canonical" href="http://bakbio.cn/2019/12/16/python接口测试之mock数据/">
+    <link rel="canonical" href="http://bakbio.cn/2020/01/16/python接口测试之Flask简单用法/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -91,11 +91,11 @@
                         <div class="tags">
                             
                         </div>
-                        <h1>python接口测试之mock数据</h1>
+                        <h1>python接口测试之Flask简单用法</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 九月 on
-                            2019-12-16
+                            2020-01-16
                         </span>
                     </div>
                 
@@ -212,33 +212,18 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>什么是Mock，简单来说mock就是模拟接口返回数据的，当后台的开发人员还没有完成接口的情况下，mock数据就起到了关键的作用，这样更有利于前端开发人员进行开发，而不是去等待后台接口，同样对于测试人员来说也是同样的，如果测试尽早的进行测试，这样能在开发阶发现和规避很多问题，同样也节约了测试的时间。</p>
-<h4><span id="在代码层面怎么去mock数据">在代码层面怎么去mock数据？</span></h4>
-<ol>
-<li>引入mock模块</li>
-<li>调用mock.Mock(return_value=200)方法模拟响应数据</li>
-</ol>
-<p>具体使用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_01</span><span class="params">(self)</span>:</span></span><br><span class="line">    url = <span class="string">"url"</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">"mobile"</span>: <span class="string">"17734829384"</span>,</span><br><span class="line">        <span class="string">"password"</span>: <span class="string">"654321"</span></span><br><span class="line">    &#125;</span><br><span class="line">    suss_data = mock.Mock(return_value = data)</span><br><span class="line">    self.assertEqual(<span class="string">"123124"</span>,suss_data())</span><br></pre></td></tr></table></figure>
-<h4><span id="moco-server的使用介绍">moco server的使用介绍</span></h4>
-<p>moco server 可以直接在配置文件中直接模拟接口请求和响应数据</p>
-<ol>
-<li>下载 moco的jar包（<a href="https://github.com/dreamhead/moco%EF%BC%89" target="_blank" rel="noopener">https://github.com/dreamhead/moco）</a></li>
-<li>配置config.json文件</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">    <span class="string">"request"</span>:&#123;</span><br><span class="line">        <span class="string">"method"</span>:<span class="string">"get"</span>,</span><br><span class="line">        <span class="string">"uri"</span>:<span class="string">"/getName"</span>,</span><br><span class="line">        <span class="string">"queries"</span>:&#123;</span><br><span class="line">            <span class="string">"name"</span>:<span class="string">"张丽"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"response"</span>:&#123;</span><br><span class="line">        <span class="string">"json"</span>:&#123;</span><br><span class="line">            <span class="string">"name"</span>:<span class="string">"张丽"</span>,</span><br><span class="line">            <span class="string">"phone"</span>:<span class="string">"13432239483"</span>,</span><br><span class="line">            <span class="string">"mess"</span>:<span class="string">"用户获取成功"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"request"</span>:&#123;</span><br><span class="line">        <span class="string">"method"</span>:<span class="string">"post"</span>,</span><br><span class="line">        <span class="string">"uri"</span>:<span class="string">"/updataName"</span>,</span><br><span class="line">        <span class="string">"forms"</span>:&#123;</span><br><span class="line">            <span class="string">"name"</span>:<span class="string">"张三"</span>,</span><br><span class="line">            <span class="string">"id"</span>:<span class="string">"9"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"response"</span>:&#123;</span><br><span class="line">        <span class="string">"json"</span>:&#123;</span><br><span class="line">            <span class="string">"name"</span>:<span class="string">"张三"</span>,</span><br><span class="line">            <span class="string">"phone"</span>:<span class="string">"13438835454"</span>,</span><br><span class="line">            <span class="string">"mess"</span>:<span class="string">"用户修改成功"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>启动moco服务<br>
-先跳转到jar包的下载文件目录中，启动命令： java -jar  moco-runner-0.10.0-standalone.jar http -p 8801 -c config.json</li>
-</ol>
-<p>没有报错就表示启动成功<br>
-<img src="http://bakbio.xjshen.cn/WX20200609-125347@2x.png" alt="此处输入图片的描述"></p>
-<p>启动成功后，通过访问配置文件中的接口请求获取接口的响应数据，如：<br>
-<a href="http://127.0.0.1:8804/getName?name=%E5%BC%A0%E4%B8%BD" target="_blank" rel="noopener">http://127.0.0.1:8804/getName?name=张丽</a><br>
-获取响应结果：<br>
-<img src="http://bakbio.xjshen.cn/WX20200609-125847@2x.png" alt="此处输入图片的描述"></p>
-<p>post请求：<br>
-<img src="http://bakbio.xjshen.cn/WX20200609-130040@2x.png" alt="此处输入图片的描述"></p>
+                <p>Flask是一个轻便的web框架，为什么我们测试会用到Flask框架呢？当我们在做接口测试的时候，会遇到有些后台接口并没有调试好的情况，但是我们又必须用到这个接口，所以这时候我们不得不模拟接口就用到了Flask,同样Python中还有另外一个web框架就是DJiango框架，具体后面会介绍到,接下来介绍flask的具体用法</p>
+<hr>
+<p>首先需要安装flask</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flask</span><br></pre></td></tr></table></figure>
+<p>导入flask模块，创建flask实例对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br></pre></td></tr></table></figure>
+<p>接下来程序的实现URL和python函数的映射关系，所有就用到了路由route</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#get请求</span></span><br><span class="line"><span class="meta">@app.route("/login",methods=['GET']) #创建路由</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    name = request.args.get(<span class="string">"name"</span>)</span><br><span class="line">    pwd = request.args.get(<span class="string">"pwd"</span>)</span><br><span class="line">    <span class="keyword">if</span> name <span class="keyword">and</span> pwd:</span><br><span class="line">        data = json.dumps(&#123;</span><br><span class="line">            <span class="string">"name"</span>:name,</span><br><span class="line">            <span class="string">"password"</span>:pwd,</span><br><span class="line">            <span class="string">"code"</span>:<span class="string">"200"</span>,</span><br><span class="line">            <span class="string">"info"</span>:<span class="string">"登录成功"</span></span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        data = json.dumps(&#123;</span><br><span class="line">            <span class="string">"error"</span>:<span class="string">"请传递参数"</span></span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="comment">#post请求</span></span><br><span class="line"><span class="meta">@app.route("/updata",methods=["POST"])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">updata</span><span class="params">()</span>:</span></span><br><span class="line">    name = request.form.get(<span class="string">"name"</span>)</span><br><span class="line">    pwd = request.form.get(<span class="string">"pwd"</span>)</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">"GET"</span>:</span><br><span class="line">        data = json.dumps(&#123;</span><br><span class="line">            <span class="string">"info"</span>:<span class="string">"请求被拒绝"</span></span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        data = json.dumps(&#123;</span><br><span class="line">            <span class="string">"name"</span>:name,</span><br><span class="line">            <span class="string">"pwd"</span>: pwd,</span><br><span class="line">            <span class="string">"info"</span>:<span class="string">"信息修改成功"</span></span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, port=<span class="number">8777</span>) <span class="comment">#调用返回方法，设置端口号，避免端口冲突</span></span><br></pre></td></tr></table></figure>
+<p>运行代码<br>
+<img src="http://bakbio.xjshen.cn/WX20200616-094748@2x.png" alt="此处输入图片的描述"></p>
+<p>在浏览器中输入上图的地址+设置的路由名称和参数</p>
+<p><img src="http://bakbio.xjshen.cn/WX20200616-095039@2x.png" alt="此处输入图片的描述"></p>
 
                 
 
@@ -246,13 +231,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2020/01/16/python接口测试之Flask简单用法/" data-toggle="tooltip" data-placement="top" title="python接口测试之Flask简单用法">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2019/09/16/python接口测试之unittest测试框架/" data-toggle="tooltip" data-placement="top" title="python接口测试之unittest测试框架">Next Post &rarr;</a>
+                            <a href="/2019/12/16/python接口测试之mock数据/" data-toggle="tooltip" data-placement="top" title="python接口测试之mock数据">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -282,7 +263,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">在代码层面怎么去mock数据？</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">moco server的使用介绍</span></a></li></ol>
+          <ol class="nav">none</ol>
         
         </div>
       </aside>
@@ -331,8 +312,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "http://bakbio.cn/2019/12/16/python接口测试之mock数据/";
-    var disqus_url = "http://bakbio.cn/2019/12/16/python接口测试之mock数据/";
+    var disqus_identifier = "http://bakbio.cn/2020/01/16/python接口测试之Flask简单用法/";
+    var disqus_url = "http://bakbio.cn/2020/01/16/python接口测试之Flask简单用法/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
