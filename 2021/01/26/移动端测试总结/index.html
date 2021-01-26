@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          web安全性测试 - ZHANGLI
+          移动端测试总结 - ZHANGLI
         
     </title>
 
-    <link rel="canonical" href="http://bakbio.cn/2016/09/21/web安全性测试/">
+    <link rel="canonical" href="http://bakbio.cn/2021/01/26/移动端测试总结/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -90,14 +90,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#安全性测试" title="安全性测试">安全性测试</a>
+                              <a class="tag" href="/tags/#功能测试" title="功能测试">功能测试</a>
                             
                         </div>
-                        <h1>web安全性测试</h1>
+                        <h1>移动端测试总结</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 九月 on
-                            2016-09-21
+                            2021-01-26
                         </span>
                     </div>
                 
@@ -214,22 +214,153 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>前两天在云课堂里面看了一个关于安全性测试的视频，看了视频后对安全性测试有了个详细的了解，接下来会对web安全性测试的测试要点进行总结。</p>
+                <p>开头先说下自己最近的感悟吧！以前大多接触的是web端相关的业务测试，近期参与到了纯App的产品，这个产品是类似于微信的社交软件，对于我而言还是蛮有挑战性的，这种产品是C端产品，对产品质量的要求是极高的，以前参与的B端产品如果线上出现了一些小问题，还可以快速的进行补救，但是如果C端产品出了一点问题，用户可以直接卸载软件，不用了，因为类似于这种社交软件还有很多的竞品，你这个不行，还可以用别的；这种纯C端的App除了功能上的测试。还需要多考虑到用户体验性、风格一致性的问题。当然这需要产品经理来一起确定；另外一方面，跟以前的web测试不一样的地方在移动端的用户可以不限地点随时可以使用，地铁、商场等，这就要求我们对产品的各种网络场景进行测试。最后需要考虑的就是app的性能问题，一个好的产品一定是能承受主较大的压力测试的，比如在大数据并发的情况下，会不会出现严重的卡顿的现象，CPU的占用率，以及内存的使用情况！以下是我在工作中的一些经验总结。</p>
 <hr>
-<p><strong>1.认证与授权:</strong><br>
-测试系统时，需要考虑到用户的认证，如：登录用户名和密码是否正确，该用户是否是可用状态；同时需要考虑到用户的授权，如：登录用户所操作的权限有哪些。</p>
-<p><strong>2.session与cookie：</strong><br>
-主要关注cookie欺骗的问题。</p>
-<p><strong>3.服务器拒绝访问：</strong><br>
-通过消耗服务器资源，疯狂的向服务器发请求，看系统是否做了相应处理，主要依靠工具或者是代码进行测试。</p>
-<p><strong>4.文件上传漏洞：</strong><br>
-上传文件时，不允许上传可执行文件,后台程序需通过文件后缀进行过滤或者是，通过二进制判断文件类型（可取）。</p>
-<p><strong>5.XSS跨站攻击:</strong><br>
-对于系统所有的输入框，不允许输入可只执行的脚本语言，如html、js等。</p>
-<p><strong>6.sql注入：</strong><br>
-(1)、输入框sql注入：如系统登录页面中，输入用户名：x’ or userid = 1 #'<br>
-看是否存在userid=1的用户，若存在该用户的话，通过猜测该用户的密码尝试进行登录；或者是修改该用户密码，修改成功后，进行登录；若系统存在sql注入的安全漏洞的话，代价可能会很大，因此应该防止sql注入，不允许输入’等特殊字符，第二个就是客户端对输入框验证之后，服务器也应该对其进行验证，<br>
-（2）、url地址栏就sql注入：通过在地址栏输入sql语句参数，看系统是否对特殊字符进行过滤。</p>
+<p>先说用户关心的问题：应用是否在设备上正常运行<br>
+然后在是用户体验，用户引导，应用容错，用户注册，网络问题：无网络链接，弱网，风格一致性，过程体验测试，对比体验测试，多分辨率的测试,应用冲突</p>
+<p>Android的权限问题<br>
+android 用户和ios用户的操作习惯<br>
+ios的越狱问题<br>
+网络问题</p>
+<h4><span id="安装卸载测试">安装卸载测试</span></h4>
+<p>安装方式：<br>
+1.命令行安装<br>
+2.第三方软件安装（豌豆荚，91助手等）<br>
+3.应用商城</p>
+<p>测试要点：</p>
+<ol>
+<li>不联网的情况下是否能正常运行，会不会崩溃</li>
+<li>在线下载数据不完整，能否再次启动</li>
+<li>是否支持断点续传</li>
+<li>下载完成后，再次启动</li>
+<li>安装成功检查版本号和相关数据</li>
+</ol>
+<p>升级测试<br>
+覆盖安装<br>
+并发测试</p>
+<ol>
+<li>弹出框提示</li>
+<li>另一个应用启动</li>
+<li>关机和待机</li>
+<li>功能冲突，比如语音和音乐功能冲突</li>
+</ol>
+<hr>
+<h3><span id="推送测试">推送测试</span></h3>
+<p>推送分为在线推送和离线推送，杀掉app后为离线推送，将app退到后台为在线推送</p>
+<ol>
+<li>应用在关机，待机，打开情况下的推送，以及息屏后的推动情况</li>
+<li>应用在后台运行下的状态（可以收到在线通知）</li>
+<li>应用在被杀掉的情况下，是否能收到离线通知</li>
+<li>推送的消息在阅读前后，消息的数量是否改变</li>
+<li>单条推送或多条推送文字显示以及跳转的界面是否正常</li>
+<li>关闭系统通知或关闭应用内的通知后，验证是否还是收到通知</li>
+<li>多语言情况下，推送的本地化翻译信息是否显示正确</li>
+</ol>
+<hr>
+<h3><span id="更新测试分为非强制更新和强制更新"><strong>更新测试</strong>：分为非强制更新和强制更新</span></h3>
+<h4><span id="非强制更新">非强制更新</span></h4>
+<p>非强制更新会弹出选中框，【稍后再说】【立即更新】，立即更新会直接跳转到appstore更新app<br>
+测试要点：</p>
+<ol>
+<li>可以取消安装，任然使用旧版本</li>
+<li>立即更新，跳转应用商城安装最新版本，安装成功后，验证版本号是否是最新的版本号</li>
+<li>更新完成后,测试新版本与旧版本的兼容性，新版本与新版本的兼容性，以及设备和应用版本的兼容性问题（可能新版本上数据添加了字段，但是旧的版本上没有而导致闪退的bug）</li>
+</ol>
+<h4><span id="强制更新">强制更新</span></h4>
+<p>当前版本已经禁用直接弹出当前版本已经禁用，弹出【立即更新】更新按钮<br>
+测试要点：</p>
+<ol>
+<li>点击强制更新按钮跳转至，app应用商城下载</li>
+<li>验证强制更新框中，有没有其他的按钮关闭弹出框，继续使用旧版本</li>
+</ol>
+<h3><span id="横屏竖屏测试">横屏竖屏测试</span></h3>
+<h3><span id="音视频通话测试">音视频通话测试</span></h3>
+<p>测试要点：<br>
+单聊通话：</p>
+<ol>
+<li>通话声音质量问题，通话是否清晰，是否有回音，杂音等</li>
+<li>对方正在拨打电话，然后再拨打给对方，是否会显示忙线问题</li>
+<li>拨打离线或在线的语音通话，验证对方是否可以收到在线或离线推送</li>
+<li>语音或视频拨通后，对方杀掉进程结束通话，自己设备上是否结束通话</li>
+<li>拨打音视频通话后，对方切换应用后，验证响铃是否正常</li>
+<li>视频或语音接通后耗电情况测试</li>
+<li>视频通话时，切换摄像头后，画面是否会有卡顿</li>
+</ol>
+<h3><span id="单聊群聊消息测试">单聊群聊消息测试</span></h3>
+<p>测试要点：</p>
+<ol>
+<li>发送在线消息给对方，对方是否能正常接收</li>
+<li>发送离线消息给对方，对方是否能正常接收</li>
+<li>对方将app退回到后台，验证是否能正常接收到推送消息</li>
+<li>对方杀掉app进程，验证是否可以收到离线推送</li>
+</ol>
+<p>群聊测试：<br>
+首先需要把群聊想象成一个房间，有的人会进来，有的人会出去！房间里面有个主人，主人一走，所有人也得跟着走，发消息是通过xmpp来进行连接，而新建群组或邀请或删除群成员是走通过接口进行连接。</p>
+<p>测试要点：</p>
+<ol>
+<li>新建群组，验证群组是否新建成功！</li>
+<li>发送在线消息到群，验证群成员是否都能收到</li>
+<li>发送离线消息到圈（群成员离线）验证是否能接收到推送</li>
+<li>在同一个群中，若把对方加入黑名单，在群里面发消息，对方是否能正常收到群消息</li>
+<li>自己退群后，是否还能收到消息</li>
+<li>邀请新成员进群，验证新成员是否能收到消息</li>
+<li>设置群组信息，验证是否可以生效</li>
+<li>…具体的用例需要去仔细设计</li>
+</ol>
+<p>消息测试：<br>
+发送消息，除了发送文本消息外，还包括语音，文件，图片，视频，地址，名片。</p>
+<ol>
+<li>文件是否支持断点续传</li>
+<li>语音是否会连续播放</li>
+<li>上传图片时，需要注意图片的大小，图片格式，图片的分辨率问题</li>
+</ol>
+<hr>
+<h3><span id="消息的加解密测试">消息的加解密测试</span></h3>
+<p>以前客户端发送请求到服务器，然后服务器返回响应数据，通过http协议进行连接，但是现在是两个客户端或者多个客户端进行通信，http协议已经满足不了多客户端的需求了，因此项目中用到了xmpp，消息通过端到端的加密，相当于两个人的聊天中，消息通过双方知道的密钥加密，如果对方卸载应用，相当于这个密钥就变了，只能重新获取密钥，此时消息就会显示解密失败！<br>
+关于xmpp的介绍，<a href="https://www.jianshu.com/p/84d15683b61e" target="_blank" rel="noopener">https://www.jianshu.com/p/84d15683b61e</a></p>
+<p>测试要点：</p>
+<ol>
+<li>发送在线消息给对方，对方的消息正常解开（正常显示）</li>
+<li>发送离线消息给对方，对方卸载应用了，重新卸载后，再次上线，会显示出消息【解密失败】，因为消息密钥更换前发送的消息，因此消息无法解开</li>
+<li>发送离线消息给对方，然后下线，对方上线后，消息显示【解密等待】，等对方上线后方可解开</li>
+</ol>
+<h3><span id="多语言测试">多语言测试</span></h3>
+<p>公司现在的app上有8中语言，包含了简体中文、繁体中文、英文、日语，俄语，印尼语、韩语，阿拉伯语、马来语、越南语、泰语。<br>
+在多语言的测试中，参考了一篇博客https://blog.csdn.net/alice_tl/article/details/78907732#comments<br>
+简单的总结了多语言测试的以下几点内容：</p>
+<ol>
+<li>时间和地区切换后，各个国家的日期格式显示的是不一样的</li>
+<li>不同的语音，文字的字符长度不一样，换行显示可能会显示重叠</li>
+<li>不同的语言，文字的阅读方向不一样，比如阿拉伯文的阅读方向是从右往左显示</li>
+<li>不同语言使用的场景不同，比如英文需要可以输入空格，有些输入框显示不能输入空格</li>
+</ol>
+<p>以下是自己补充的内容</p>
+<ol>
+<li>需要考虑到数据库返回的内容也做多语言处理</li>
+</ol>
+<h3><span id="app应用的性能测试">app应用的性能测试</span></h3>
+<p>app的性能测试上主要考虑了app页面卡顿现象，即ftp，用到了腾讯的一个开源组件<br>
+地址：<a href="https://perfdog.qq.com/sdk%EF%BC%8C%E9%80%9A%E8%BF%87%E8%BF%9E%E6%8E%A5app%EF%BC%8C%E5%8F%AF%E4%BB%A5%E4%BA%86%E8%A7%A3app%E8%BF%90%E8%A1%8C%E7%9A%84ftp%EF%BC%8Ccpu%EF%BC%8C%E4%BB%A5%E5%8F%8AMemory%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82" target="_blank" rel="noopener">https://perfdog.qq.com/sdk，通过连接app，可以了解app运行的ftp，cpu，以及Memory的使用。</a></p>
+<h3><span id="网络测试">网络测试</span></h3>
+<p>一个app的容错处理能力，直接影响到用户的体验性，网络情况分为几种情况,<strong>断网</strong>，<strong>流畅</strong>和<strong>弱网</strong>几种情况，每个情况下需要考虑到的提示也应该不一样。</p>
+<ol>
+<li>断网——网络未连接，请稍后重试</li>
+<li>弱网——网络连接不稳定，请稍后再试</li>
+</ol>
+<p>关于网络的测试，需要考虑的几点：</p>
+<ol>
+<li>各种网络状态下的提示信息是否明确显示</li>
+<li>断网后，是否能正常重新连接，数据是否会有丢失</li>
+<li>切换不中的网络3G、4G、wifi等。</li>
+</ol>
+<h3><span id="其他">其他</span></h3>
+<ol>
+<li>app应用内不应该出现公司内部的链接，需要考虑安全性的问题！比如不应该把接口地址放上去！<br>
+2.群聊中发送的离线消息，如果群聊中有一个人查看了，其他人就收不到了。经过仔细排查，是因为后台服务器吧一个人的已读回执发给了还没有上线的人，所以其他人上线后，消息就看不到了。<br>
+3.app中各种设置，杀死进程后，再次进入app，是否还设置是否正常<br>
+4.最后需要深入的了解测试对象，了解它的数据来源，在项目比较紧张的情况下进行进行分层测试<br>
+相当适当进行接口测试，把业务变更不会太大的地方抽取出来做接口测试，把较多的时间花在变化比较大的部分。</li>
+</ol>
 
                 
 
@@ -237,13 +368,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2017/02/22/走进appium移动端自动化测试/" data-toggle="tooltip" data-placement="top" title="走进appium移动端自动化测试">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2016/09/21/初识postman接口测试/" data-toggle="tooltip" data-placement="top" title="初识postman接口测试">Next Post &rarr;</a>
+                            <a href="/2020/01/16/python中的Flask简单用法/" data-toggle="tooltip" data-placement="top" title="python中的Flask简单用法">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -268,6 +395,17 @@
             <!-- Tabe of Content -->
             <!-- Table of Contents -->
 
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">安装卸载测试</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">推送测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">更新测试：分为非强制更新和强制更新</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">非强制更新</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#null"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">强制更新</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">横屏竖屏测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">音视频通话测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">单聊群聊消息测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">消息的加解密测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">多语言测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">app应用的性能测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">网络测试</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#null"><span class="toc-nav-number"></span> <span class="toc-nav-text">其他</span></a>
+        
+        </div>
+      </aside>
+    
+
                 
             <!-- Sidebar Container -->
             <div class="
@@ -282,7 +420,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#安全性测试" title="安全性测试">安全性测试</a>
+                          <a class="tag" href="/tags/#功能测试" title="功能测试">功能测试</a>
                         
                     </div>
                 </section>
@@ -313,8 +451,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "your-disqus-ID";
-    var disqus_identifier = "http://bakbio.cn/2016/09/21/web安全性测试/";
-    var disqus_url = "http://bakbio.cn/2016/09/21/web安全性测试/";
+    var disqus_identifier = "http://bakbio.cn/2021/01/26/移动端测试总结/";
+    var disqus_url = "http://bakbio.cn/2021/01/26/移动端测试总结/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
